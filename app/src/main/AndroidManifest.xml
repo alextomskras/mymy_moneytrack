@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dreamer.mymy_moneytrack">
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    
     <application
         android:name=".MtApp"
         android:allowBackup="true"
@@ -10,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mymy_moneytrack">
-    <activity
-        android:name=".activity.record.MainActivity"
+        <activity
+            android:name=".activity.record.MainActivity"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Default">
@@ -101,8 +104,6 @@
     </provider>
 
 </application>
-
-<uses-permission android:name="android.permission.INTERNET" />
 
 
 </manifest>
