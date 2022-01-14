@@ -25,7 +25,7 @@ class SummaryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            monthReport = arguments!!.getParcelable(ARG_MONTH_REPORT)
+            monthReport = requireArguments().getParcelable(ARG_MONTH_REPORT)
         }
     }
 
@@ -42,7 +42,7 @@ class SummaryFragment : Fragment() {
         if (rootView == null) return
         ButterKnife.bind(this, rootView)
         if (monthReport != null) {
-            listView!!.adapter = MonthSummaryAdapter(activity, monthReport)
+            listView!!.adapter = activity?.let { MonthSummaryAdapter(it, monthReport!!) }
         }
     }
 

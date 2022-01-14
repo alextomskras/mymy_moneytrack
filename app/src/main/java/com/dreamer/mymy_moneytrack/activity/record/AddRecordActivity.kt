@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.res.ColorStateList
-import androidx.core.content.ContextCompat
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.format.DateFormat
@@ -15,6 +14,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity
 import com.dreamer.mymy_moneytrack.adapter.CategoryAutoCompleteAdapter
@@ -82,11 +82,11 @@ class AddRecordActivity : BaseBackActivity() {
     override fun initViews() {
         super.initViews()
 
-        recordValidator = RecordValidator(this, contentView)
+        recordValidator = RecordValidator(this, contentView) as IValidator<Record>
         autoCompleter = CategoryAutoCompleter(categoryController, preferenceController)
         uiDecorator = AddRecordUiDecorator(this)
 
-        uiDecorator.decorateActionBar(supportActionBar, mode, type)
+        mode?.let { uiDecorator.decorateActionBar(supportActionBar, it, type) }
 
         if (mode == Mode.MODE_EDIT) {
             record?.let { record ->
@@ -174,7 +174,7 @@ class AddRecordActivity : BaseBackActivity() {
     }
 
     private fun selectDate() {
-        CrashlyticsProxy.get().logButton("Select Date")
+        CrashlyticsProxy.get()?.logButton("Select Date")
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timestamp
         val dialog = DatePickerDialog(this, uiDecorator.getTheme(type),
@@ -197,7 +197,7 @@ class AddRecordActivity : BaseBackActivity() {
     }
 
     private fun selectTime() {
-        CrashlyticsProxy.get().logButton("Show Time")
+        CrashlyticsProxy.get()?.logButton("Show Time")
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timestamp
         val dialog = TimePickerDialog(this, uiDecorator.getTheme(type),
@@ -244,9 +244,9 @@ class AddRecordActivity : BaseBackActivity() {
     }
 
     private fun tryRecord() {
-        CrashlyticsProxy.get().logButton("Done Record")
+        CrashlyticsProxy.get()?.logButton("Done Record")
         if (addRecord()) {
-            CrashlyticsProxy.get().logEvent("Done Record")
+            CrashlyticsProxy.get()?.logEvent("Done Record")
             setResult(Activity.RESULT_OK)
             finish()
         }
