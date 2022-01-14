@@ -1,66 +1,45 @@
-package com.dreamer.mymy_moneytrack.util;
+package com.dreamer.mymy_moneytrack.util
 
+import com.dreamer.mymy_moneytrack.controller.PreferenceController
+import com.dreamer.mymy_moneytrack.controller.data.CategoryController
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.dreamer.mymy_moneytrack.controller.PreferenceController;
-import com.dreamer.mymy_moneytrack.controller.data.CategoryController;
-import com.dreamer.mymy_moneytrack.entity.data.Category;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-
-public class CategoryAutoCompleter {
-
-    private final List<String> categoryList;
-    private final Map<String, String> recordTitleCategoryMap;
-
-    @NonNull
-    private final CategoryController categoryController;
-    @NonNull
-    private final PreferenceController preferenceController;
-
-    public CategoryAutoCompleter(@NonNull CategoryController categoryController,
-                                 @NonNull PreferenceController preferenceController) {
-        this.categoryController = categoryController;
-        this.preferenceController = preferenceController;
-
-        categoryList = new ArrayList<>();
-        recordTitleCategoryMap = preferenceController.readRecordTitleCategoryPairs();
-
-        for (Category category : categoryController.readFiltered()) {
-            categoryList.add(category.getName());
+class CategoryAutoCompleter(
+    private val categoryController: CategoryController,
+    private val preferenceController: PreferenceController
+) {
+    private val categoryList: MutableList<String>
+    private val recordTitleCategoryMap: MutableMap<String, String>
+    fun completeByPart(part: String?): List<String> {
+        val resultList: MutableList<String> = ArrayList()
+        for (category in categoryList) {
+            if (category.startsWith(part!!)) resultList.add(category)
         }
+        return resultList
     }
 
-    public List<String> completeByPart(String part) {
-        List<String> resultList = new ArrayList<>();
-
-        for (String category : categoryList) {
-            if (category.startsWith(part)) resultList.add(category);
-        }
-
-        return resultList;
+    fun removeFromAutoComplete(category: String) {
+        categoryList.remove(category)
+        categoryController.disableCategory(category)
     }
 
-    public void removeFromAutoComplete(String category) {
-        categoryList.remove(category);
-        categoryController.disableCategory(category);
+    fun completeByRecordTitle(title: String): String? {
+        return recordTitleCategoryMap[title]
     }
 
-    @Nullable
-    public String completeByRecordTitle(String title) {
-        return recordTitleCategoryMap.get(title);
-    }
-
-    public void addRecordTitleCategoryPair(String title, String category) {
+    fun addRecordTitleCategoryPair(title: String, category: String) {
         if (title.isEmpty() || category.isEmpty()) {
-            return;
+            return
         }
-        recordTitleCategoryMap.put(title, category);
-        preferenceController.writeRecordTitleCategoryPairs(recordTitleCategoryMap);
+        recordTitleCategoryMap[title] = category
+        preferenceController.writeRecordTitleCategoryPairs(recordTitleCategoryMap)
+    }
+
+    init {
+        categoryList = ArrayList()
+        recordTitleCategoryMap = preferenceController.readRecordTitleCategoryPairs()
+        for (category in categoryController.readFiltered()) {
+            categoryList.add(category.name)
+        }
     }
 }

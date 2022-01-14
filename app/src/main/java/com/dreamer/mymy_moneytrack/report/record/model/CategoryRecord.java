@@ -1,6 +1,6 @@
 package com.dreamer.mymy_moneytrack.report.record.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,10 @@ import java.util.List;
  * @author Evgenii Kanivets
  */
 public class CategoryRecord {
-    private String title;
-    private String currency;
-    private double amount;
-    private List<SummaryRecord> summaryRecordList;
+    private final String title;
+    private final String currency;
+    private final double amount;
+    private final List<SummaryRecord> summaryRecordList;
 
     public CategoryRecord(String title, String currency, double amount) {
         this.title = title;

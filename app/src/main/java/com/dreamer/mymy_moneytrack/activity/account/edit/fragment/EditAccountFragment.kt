@@ -31,7 +31,7 @@ class EditAccountFragment : BaseFragment() {
 
     override fun initData() {
         appComponent.inject(this@EditAccountFragment)
-        arguments?.let { arguments -> account = arguments.getParcelable(KEY_ACCOUNT) }
+        arguments?.let { arguments -> account = arguments.getParcelable(KEY_ACCOUNT)!! }
     }
 
     override fun initViews(view: View) {
@@ -46,7 +46,7 @@ class EditAccountFragment : BaseFragment() {
     }
 
     private fun done() {
-        CrashlyticsProxy.get().logButton("Edit Account")
+        CrashlyticsProxy.get()?.logButton("Edit Account")
         if (accountValidator.validate()) {
             val title = etTitle.text.toString().trim { it <= ' ' }
             val goal = etGoal.text.toString().toDouble()

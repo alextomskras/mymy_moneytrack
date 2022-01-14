@@ -1,7 +1,8 @@
 package com.dreamer.mymy_moneytrack.report.chart;
 
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.List;
 

@@ -1,43 +1,31 @@
-package com.dreamer.mymy_moneytrack.util;
+package com.dreamer.mymy_moneytrack.util
 
-import android.content.Context;
-import androidx.annotation.Nullable;
+import android.content.Context
 
+class CrashlyticsProxy private constructor() {
+    var isEnabled: Boolean
+        get() = false
+        set(enabled) {}
 
+    fun logEvent(eventName: String?): Boolean {
+        return false
+    }
 
+    fun logButton(buttonName: String?): Boolean {
+        return false
+    }
 
+    companion object {
+        private var instance: CrashlyticsProxy? = null
 
-public class CrashlyticsProxy {
-    private static CrashlyticsProxy instance;
-
-    public static CrashlyticsProxy get() {
-        if (instance == null) {
-            instance = new CrashlyticsProxy();
+        @JvmStatic
+        fun get(): CrashlyticsProxy? {
+            if (instance == null) {
+                instance = CrashlyticsProxy()
+            }
+            return instance
         }
-        return instance;
-    }
 
-    private CrashlyticsProxy() {
-
-    }
-
-    public static void startCrashlytics(Context context) {
-
-    }
-
-    public void setEnabled(boolean enabled) {
-
-    }
-
-    public boolean isEnabled() {
-        return false;
-    }
-
-    public boolean logEvent(@Nullable String eventName) {
-        return false;
-    }
-
-    public boolean logButton(@Nullable String buttonName) {
-        return false;
+        fun startCrashlytics(context: Context?) {}
     }
 }

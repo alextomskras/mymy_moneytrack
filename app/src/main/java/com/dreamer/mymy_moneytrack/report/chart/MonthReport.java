@@ -2,7 +2,8 @@ package com.dreamer.mymy_moneytrack.report.chart;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
 import com.dreamer.mymy_moneytrack.entity.data.Record;
@@ -150,7 +151,7 @@ public class MonthReport implements IMonthReport {
     }
 
     private static class MonthNode implements Parcelable {
-        private long timestamp;
+        private final long timestamp;
         private double totalIncome;
         private double totalExpense;
 

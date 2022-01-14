@@ -1,12 +1,15 @@
 package com.dreamer.mymy_moneytrack.controller.backup.tasks;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.dreamer.mymy_moneytrack.controller.backup.BackupController;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,14 +17,15 @@ import java.io.IOException;
 
 public class DropboxBackupAsyncTask extends AsyncTask<Void, String, String> {
 
-    private DbxClientV2 dbClient;
-    private String appDbFileName;
-    private String fileName;
+    private final DbxClientV2 dbClient;
+    private final String appDbFileName;
+    private final String fileName;
 
-    @Nullable private BackupController.OnBackupListener listener;
+    @Nullable
+    private final BackupController.OnBackupListener listener;
 
     public DropboxBackupAsyncTask(@NonNull DbxClientV2 dbClient, String fileName, String appDbFileName,
-            @Nullable BackupController.OnBackupListener listener) {
+                                  @Nullable BackupController.OnBackupListener listener) {
         this.dbClient = dbClient;
         this.fileName = fileName;
         this.appDbFileName = appDbFileName;

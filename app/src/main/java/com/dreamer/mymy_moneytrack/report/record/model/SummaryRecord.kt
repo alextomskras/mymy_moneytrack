@@ -1,40 +1,24 @@
-package com.dreamer.mymy_moneytrack.report.record.model;
+package com.dreamer.mymy_moneytrack.report.record.model
 
-import com.dreamer.mymy_moneytrack.R;
+import com.dreamer.mymy_moneytrack.MtApp.Companion.get
+import com.dreamer.mymy_moneytrack.R
 
 /**
  * Entity class.
- * Created on 2/25/16.
  *
- * @author Evgenii Kanivets
  */
-public class SummaryRecord {
-    private final String title;
-    private final String currency;
-    private final double amount;
-
-    public SummaryRecord(String title, String currency, double amount, int recordsCount) {
-        this.title = buildTitle(title, recordsCount);
-        this.currency = currency;
-        this.amount = amount;
+class SummaryRecord(title: String, currency: String, amount: Double, recordsCount: Int) {
+    val title: String
+    val currency: String
+    val amount: Double
+    private fun buildTitle(title: String, recordsCount: Int): String {
+        return if (recordsCount <= 1) title else get()!!
+            .resources.getString(R.string.title_summary_record, title, recordsCount)
     }
 
-    public String getTitle() {
-        return title;
+    init {
+        this.title = buildTitle(title, recordsCount)
+        this.currency = currency
+        this.amount = amount
     }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    private String buildTitle(String title, int recordsCount) {
-        if (recordsCount <= 1) return title;
-        else
-            return MtApp.get().getResources().getString(R.string.title_summary_record, title, recordsCount);
-    }
-
 }

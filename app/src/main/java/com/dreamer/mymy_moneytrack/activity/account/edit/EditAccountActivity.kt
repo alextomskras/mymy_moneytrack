@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.viewpager.widget.ViewPager
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.activity.account.edit.fragment.AccountOperationsFragment
 import com.dreamer.mymy_moneytrack.activity.account.edit.fragment.EditAccountFragment
@@ -47,12 +48,17 @@ class EditAccountActivity : BaseBackActivity() {
         val adapter = GeneralViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(EditAccountFragment.newInstance(account), getString(R.string.information))
         adapter.addFragment(AccountOperationsFragment.newInstance(account), getString(R.string.operations))
-        viewPager.adapter = adapter
+        viewPager?.adapter = adapter
 
-        viewPager.addOnPageChangeListener(object : OnPageChangeListener {
+        viewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
                 if (position == 0) {

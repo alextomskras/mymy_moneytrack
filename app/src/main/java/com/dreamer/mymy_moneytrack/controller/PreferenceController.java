@@ -3,12 +3,13 @@ package com.dreamer.mymy_moneytrack.controller;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dreamer.mymy_moneytrack.R;
-
 import com.dreamer.mymy_moneytrack.repo.DbHelper;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +35,8 @@ public class PreferenceController {
 
     private static final int RATE_PERIOD = 5;
 
-    @NonNull private Context context;
+    @NonNull
+    private final Context context;
 
     public PreferenceController(@NonNull Context context) {
         this.context = context;

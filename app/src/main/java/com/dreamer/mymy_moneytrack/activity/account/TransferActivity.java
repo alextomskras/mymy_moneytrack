@@ -2,6 +2,7 @@ package com.dreamer.mymy_moneytrack.activity.account;
 
 
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -89,7 +90,11 @@ public class TransferActivity extends BaseBackActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getContentViewId().inflate(R.menu.menu_transfer, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_transfer, menu);
+        getContentViewId();
+
+//                .inflate(R.menu.menu_transfer, menu);
         return true;
     }
 

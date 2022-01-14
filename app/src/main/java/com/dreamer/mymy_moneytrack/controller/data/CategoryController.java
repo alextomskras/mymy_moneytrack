@@ -1,12 +1,12 @@
 package com.dreamer.mymy_moneytrack.controller.data;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dreamer.mymy_moneytrack.controller.PreferenceController;
-import com.dreamer.mymy_moneytrack.repo.DbHelper;
 import com.dreamer.mymy_moneytrack.controller.base.BaseController;
 import com.dreamer.mymy_moneytrack.entity.data.Category;
+import com.dreamer.mymy_moneytrack.repo.DbHelper;
 import com.dreamer.mymy_moneytrack.repo.base.IRepo;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class CategoryController extends BaseController<Category> {
     @NonNull
     private final PreferenceController preferenceController;
     @NonNull
-    private Set<String> filteredCategories;
+    private final Set<String> filteredCategories;
 
     public CategoryController(@NonNull IRepo<Category> categoryRepo,
                               @NonNull PreferenceController preferenceController) {

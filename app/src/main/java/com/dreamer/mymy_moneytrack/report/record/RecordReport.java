@@ -1,9 +1,9 @@
 package com.dreamer.mymy_moneytrack.report.record;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
-import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
 import com.dreamer.mymy_moneytrack.entity.Period;
+import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
 import com.dreamer.mymy_moneytrack.entity.data.Record;
 import com.dreamer.mymy_moneytrack.report.base.IExchangeRateProvider;
 import com.dreamer.mymy_moneytrack.report.record.model.CategoryRecord;
@@ -18,21 +18,18 @@ import java.util.TreeMap;
 
 /**
  * First {@link IRecordReport} implementation.
- * Created on 2/25/16.
- *
- * @author Evgenii Kanivets
  */
 public class RecordReport implements IRecordReport {
     @SuppressWarnings("unused")
     private static final String TAG = "RecordReport";
 
-    private String currency;
-    private Period period;
-    private IExchangeRateProvider rateProvider;
+    private final String currency;
+    private final Period period;
+    private final IExchangeRateProvider rateProvider;
 
     private double totalIncome;
     private double totalExpense;
-    private List<CategoryRecord> categoryRecordList;
+    private final List<CategoryRecord> categoryRecordList;
 
     public RecordReport(String currency, Period period, List<Record> recordList, IExchangeRateProvider rateProvider) {
         if (currency == null || period == null || recordList == null || rateProvider == null)

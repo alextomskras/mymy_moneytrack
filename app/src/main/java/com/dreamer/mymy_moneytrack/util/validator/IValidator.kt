@@ -1,11 +1,12 @@
-package com.dreamer.mymy_moneytrack.util.validator;
+package com.dreamer.mymy_moneytrack.util.validator
 
-
-public interface IValidator<T> {
-    long MAX_ABS_VALUE = Integer.MAX_VALUE * 1024L;
-
+interface IValidator<T> {
     /**
      * @return true if validation passed or false otherwise
      */
-    boolean validate();
+    fun validate(): Boolean
+
+    companion object {
+        const val MAX_ABS_VALUE = Int.MAX_VALUE * 1024L
+    }
 }

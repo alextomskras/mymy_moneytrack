@@ -1,7 +1,7 @@
 package com.dreamer.mymy_moneytrack.controller.external;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dreamer.mymy_moneytrack.controller.data.RecordController;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
@@ -29,7 +29,7 @@ public class ImportController {
         List<Record> recordList = new ArrayList<>();
         if (csv == null) return recordList;
 
-        String lines[] = csv.split("\\r?\\n");
+        String[] lines = csv.split("\\r?\\n");
         for (String line : lines) {
             String[] words = line.split(Head.DELIMITER);
             if (words.length != Head.COLUMN_COUNT) continue;

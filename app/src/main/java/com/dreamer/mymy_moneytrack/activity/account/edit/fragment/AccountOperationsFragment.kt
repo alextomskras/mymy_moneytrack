@@ -16,6 +16,7 @@ import com.dreamer.mymy_moneytrack.entity.data.Record
 import com.dreamer.mymy_moneytrack.entity.data.Transfer
 import com.dreamer.mymy_moneytrack.util.RecordItemsBuilder
 import kotlinx.android.synthetic.main.fragment_account_operations.*
+import java.util.*
 import javax.inject.Inject
 
 class AccountOperationsFragment : BaseFragment() {
@@ -35,7 +36,7 @@ class AccountOperationsFragment : BaseFragment() {
 
     override fun initData() {
         appComponent.inject(this@AccountOperationsFragment)
-        arguments?.let { arguments -> account = arguments.getParcelable(KEY_ACCOUNT) }
+        arguments?.let { arguments -> account = arguments.getParcelable(KEY_ACCOUNT)!! }
     }
 
     override fun initViews(view: View) {
@@ -58,7 +59,7 @@ class AccountOperationsFragment : BaseFragment() {
         transfers.forEach {
             val type = if (it.fromAccountId == account.id) Record.TYPE_EXPENSE else Record.TYPE_INCOME
             val title = constructRecordTitle(type, it)
-            val category = Category(getString(R.string.transfer).toLowerCase())
+            val category = Category(getString(R.string.transfer).lowercase(Locale.getDefault()))
             val price = if (type == Record.TYPE_EXPENSE) it.fromAmount else it.toAmount
             val decimals = if (type == Record.TYPE_EXPENSE) it.fromDecimals else it.toDecimals
 
@@ -72,7 +73,7 @@ class AccountOperationsFragment : BaseFragment() {
         val titlePrefix = getString(if (type == Record.TYPE_EXPENSE) R.string.to else R.string.from)
         val oppositeAccountId = if (type == Record.TYPE_EXPENSE) transfer.toAccountId else transfer.fromAccountId
         val oppositeAccountTitle = "$titlePrefix ${accountController.read(oppositeAccountId)?.title}"
-        return "${getString(R.string.transfer)} $oppositeAccountTitle".toLowerCase()
+        return "${getString(R.string.transfer)} $oppositeAccountTitle".lowercase(Locale.getDefault())
     }
 
     companion object {

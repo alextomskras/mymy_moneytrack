@@ -2,7 +2,8 @@ package com.dreamer.mymy_moneytrack.report.chart;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.dreamer.mymy_moneytrack.R;
 import com.github.mikephil.charting.data.BarDataSet;

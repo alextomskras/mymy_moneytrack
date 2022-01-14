@@ -1,110 +1,93 @@
-package com.dreamer.mymy_moneytrack.util.validator;
+package com.dreamer.mymy_moneytrack.util.validator
 
-import android.content.Context;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.content.Context
+import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatSpinner
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.entity.ExchangeRatePair
+import com.google.android.material.textfield.TextInputLayout
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatSpinner;
-
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.entity.ExchangeRatePair;
-import com.google.android.material.textfield.TextInputLayout;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-
-@SuppressWarnings("WeakerAccess")
-public class ExchangeRatePairValidator implements IValidator<ExchangeRatePair> {
-
-    @NonNull
-    private final Context context;
-
+class ExchangeRatePairValidator(private val context: Context, view: View) :
+    IValidator<ExchangeRatePair?> {
     @BindView(R.id.spinner_from_currency)
-    AppCompatSpinner spinnerFromCurrency;
+    var spinnerFromCurrency: AppCompatSpinner? = null
+
     @BindView(R.id.spinner_to_currency)
-    AppCompatSpinner spinnerToCurrency;
+    var spinnerToCurrency: AppCompatSpinner? = null
+
     @BindView(R.id.til_buy)
-    TextInputLayout tilBuy;
+    var tilBuy: TextInputLayout? = null
+
     @BindView(R.id.et_buy)
-    EditText etBuy;
+    var etBuy: EditText? = null
+
     @BindView(R.id.til_sell)
-    TextInputLayout tilSell;
+    var tilSell: TextInputLayout? = null
+
     @BindView(R.id.et_sell)
-    EditText etSell;
-
-    public ExchangeRatePairValidator(@NonNull Context context, @NonNull View view) {
-        this.context = context;
-        ButterKnife.bind(this, view);
-        initTextWatchers();
-    }
-
-    @Override
-    public boolean validate() {
-        boolean valid = true;
-
-        String fromCurrency = null;
-        if (spinnerFromCurrency.isEnabled()) {
-            fromCurrency = (String) spinnerFromCurrency.getSelectedItem();
+    var etSell: EditText? = null
+    override fun validate(): Boolean {
+        var valid = true
+        var fromCurrency: String? = null
+        if (spinnerFromCurrency!!.isEnabled) {
+            fromCurrency = spinnerFromCurrency!!.selectedItem as String
         } else {
-            valid = false;
+            valid = false
         }
-
-        String toCurrency = null;
-        if (spinnerToCurrency.isEnabled()) {
-            toCurrency = (String) spinnerToCurrency.getSelectedItem();
+        var toCurrency: String? = null
+        if (spinnerToCurrency!!.isEnabled) {
+            toCurrency = spinnerToCurrency!!.selectedItem as String
         } else {
-            valid = false;
+            valid = false
         }
-
-        if (fromCurrency != null && toCurrency != null && fromCurrency.equals(toCurrency)) {
-            Toast.makeText(context, R.string.same_currencies, Toast.LENGTH_SHORT).show();
-            valid = false;
+        if (fromCurrency != null && toCurrency != null && fromCurrency == toCurrency) {
+            Toast.makeText(context, R.string.same_currencies, Toast.LENGTH_SHORT).show()
+            valid = false
         }
-
-        double amountBuy = Double.MAX_VALUE;
+        var amountBuy = Double.MAX_VALUE
         try {
-            amountBuy = Double.parseDouble(etBuy.getText().toString().trim());
-        } catch (Exception e) {
-            e.printStackTrace();
+            amountBuy = etBuy!!.text.toString().trim { it <= ' ' }.toDouble()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
         if (amountBuy == Double.MAX_VALUE) {
-            tilBuy.setError(context.getString(R.string.field_cant_be_empty));
-            amountBuy = 0;
-            valid = false;
+            tilBuy!!.error = context.getString(R.string.field_cant_be_empty)
+            amountBuy = 0.0
+            valid = false
         }
-
-        if (amountBuy > MAX_ABS_VALUE) {
-            tilBuy.setError(context.getString(R.string.too_much_for_exchange));
-            valid = false;
+        if (amountBuy > IValidator.MAX_ABS_VALUE) {
+            tilBuy!!.error = context.getString(R.string.too_much_for_exchange)
+            valid = false
         }
-
-        double amountSell = Double.MAX_VALUE;
+        var amountSell = Double.MAX_VALUE
         try {
-            amountSell = Double.parseDouble(etSell.getText().toString().trim());
-        } catch (Exception e) {
-            e.printStackTrace();
+            amountSell = etSell!!.text.toString().trim { it <= ' ' }.toDouble()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
         if (amountSell == Double.MAX_VALUE) {
-            tilSell.setError(context.getString(R.string.field_cant_be_empty));
-            amountSell = 0;
-            valid = false;
+            tilSell!!.error = context.getString(R.string.field_cant_be_empty)
+            amountSell = 0.0
+            valid = false
         }
-
-        if (amountSell > MAX_ABS_VALUE) {
-            tilSell.setError(context.getString(R.string.too_much_for_exchange));
-            valid = false;
+        if (amountSell > IValidator.MAX_ABS_VALUE) {
+            tilSell!!.error = context.getString(R.string.too_much_for_exchange)
+            valid = false
         }
-
-        return valid;
+        return valid
     }
 
-    private void initTextWatchers() {
-        etBuy.addTextChangedListener(new ClearErrorTextWatcher(tilBuy));
-        etSell.addTextChangedListener(new ClearErrorTextWatcher(tilSell));
+    private fun initTextWatchers() {
+        etBuy!!.addTextChangedListener(ClearErrorTextWatcher(tilBuy!!))
+        etSell!!.addTextChangedListener(ClearErrorTextWatcher(tilSell!!))
+    }
+
+    init {
+        ButterKnife.bind(this, view)
+        initTextWatchers()
     }
 }

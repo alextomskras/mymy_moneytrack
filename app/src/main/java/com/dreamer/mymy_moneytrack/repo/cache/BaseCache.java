@@ -1,7 +1,7 @@
 package com.dreamer.mymy_moneytrack.repo.cache;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.util.LruCache;
 
 import com.dreamer.mymy_moneytrack.entity.base.IEntity;
@@ -21,10 +21,10 @@ public class BaseCache<T extends IEntity> implements IRepo<T> {
 
     private static final int CACHE_SIZE = 1024 * 1024; // 1MiB
 
-    private LruCache<Long, T> lruCache;
+    private final LruCache<Long, T> lruCache;
 
     @NonNull
-    private IRepo<T> repo;
+    private final IRepo<T> repo;
 
     public BaseCache(@NonNull IRepo<T> repo) {
         this.repo = repo;

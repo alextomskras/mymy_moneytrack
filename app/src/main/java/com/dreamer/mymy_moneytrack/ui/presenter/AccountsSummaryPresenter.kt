@@ -1,129 +1,117 @@
-package com.dreamer.mymy_moneytrack.ui.presenter;
+package com.dreamer.mymy_moneytrack.ui.presenter
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import androidx.appcompat.widget.AppCompatSpinner;
-
-import com.dreamer.mymy_moneytrack.MtApp;
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.controller.CurrencyController;
-import com.dreamer.mymy_moneytrack.controller.FormatController;
-import com.dreamer.mymy_moneytrack.controller.data.AccountController;
-import com.dreamer.mymy_moneytrack.controller.data.ExchangeRateController;
-import com.dreamer.mymy_moneytrack.report.ReportMaker;
-import com.dreamer.mymy_moneytrack.report.account.IAccountsReport;
-import com.dreamer.mymy_moneytrack.ui.presenter.base.BaseSummaryPresenter;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatSpinner
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.dreamer.mymy_moneytrack.MtApp.Companion.get
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.controller.CurrencyController
+import com.dreamer.mymy_moneytrack.controller.FormatController
+import com.dreamer.mymy_moneytrack.controller.data.AccountController
+import com.dreamer.mymy_moneytrack.controller.data.ExchangeRateController
+import com.dreamer.mymy_moneytrack.report.ReportMaker
+import com.dreamer.mymy_moneytrack.ui.presenter.base.BaseSummaryPresenter
+import javax.inject.Inject
 
 /**
  * Util class to create and manage summary header view for .
-
+ *
  */
-public class AccountsSummaryPresenter extends BaseSummaryPresenter {
+class AccountsSummaryPresenter(context: Context) : BaseSummaryPresenter() {
+    @Inject
+    var rateController: ExchangeRateController? = null
 
     @Inject
-    ExchangeRateController rateController;
+    var accountController: AccountController? = null
+
     @Inject
-    AccountController accountController;
+    var currencyController: CurrencyController? = null
+
     @Inject
-    CurrencyController currencyController;
-    @Inject
-    FormatController formatController;
-
-    private final int red;
-    private final int green;
-    private View view;
-    private final ReportMaker reportMaker;
-
-    @SuppressWarnings("deprecation")
-    public AccountsSummaryPresenter(Context context) {
-        this.context = context;
-
-        layoutInflater = LayoutInflater.from(context);
-        red = context.getResources().getColor(R.color.red);
-        green = context.getResources().getColor(R.color.green);
-
-        MtApp.get().getAppComponent().inject(AccountsSummaryPresenter.this);
-        reportMaker = new ReportMaker(rateController);
-    }
-
-    public View create() {
-        view = layoutInflater.inflate(R.layout.view_summary_accounts, null);
-
-        final ViewHolder viewHolder = new ViewHolder(view);
-        view.setTag(viewHolder);
-
-        List<String> currencyList = currencyController.readAll();
-
-        viewHolder.spinnerCurrency.setAdapter(new ArrayAdapter<>(context,
-                android.R.layout.simple_list_item_1, currencyList));
-
-        String currency = currencyController.readDefaultCurrency();
-
-        for (int i = 0; i < currencyList.size(); i++) {
-            String item = currencyList.get(i);
-
-            if (item.equals(currency)) {
-                viewHolder.spinnerCurrency.setSelection(i);
-                break;
+    var formatController: FormatController? = null
+    private val red: Int
+    private val green: Int
+    private var view: View? = null
+    private val reportMaker: ReportMaker
+    fun create(): View? {
+        view = layoutInflater.inflate(R.layout.view_summary_accounts, null)
+        val viewHolder = ViewHolder(view)
+        view?.tag = viewHolder
+        val currencyList = currencyController!!.readAll()
+        viewHolder.spinnerCurrency!!.adapter = ArrayAdapter(
+            context,
+            android.R.layout.simple_list_item_1, currencyList
+        )
+        val currency = currencyController!!.readDefaultCurrency()
+        for (i in currencyList.indices) {
+            val item = currencyList[i]
+            if (item == currency) {
+                viewHolder.spinnerCurrency!!.setSelection(i)
+                break
             }
         }
+        viewHolder.spinnerCurrency!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    update()
+                }
 
-        viewHolder.spinnerCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                update();
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        return view;
+        return view
     }
 
-    public void update() {
-        ViewHolder viewHolder = (ViewHolder) view.getTag();
-
-        String currency = (String) viewHolder.spinnerCurrency.getSelectedItem();
-        IAccountsReport report = reportMaker.getAccountsReport(currency, accountController.readAll());
-
+    fun update() {
+        val viewHolder = view!!.tag as ViewHolder
+        val currency = viewHolder.spinnerCurrency!!.selectedItem as String
+        val report = reportMaker.getAccountsReport(currency, accountController!!.readAll())
         if (report == null) {
-            viewHolder.tvTotal.setTextColor(red);
-            viewHolder.tvTotal.setText(createRatesNeededList(currency,
-                    reportMaker.currencyNeededAccounts(currency, accountController.readAll())));
-            viewHolder.tvCurrency.setText("");
+            viewHolder.tvTotal!!.setTextColor(red)
+            viewHolder.tvTotal!!.text = createRatesNeededList(
+                currency,
+                reportMaker.currencyNeededAccounts(currency, accountController!!.readAll())
+            )
+            viewHolder.tvCurrency!!.text = ""
         } else {
-            viewHolder.tvTotal.setTextColor(report.getTotal() >= 0 ? green : red);
-            viewHolder.tvTotal.setText(formatController.formatSignedAmount(report.getTotal()));
-            viewHolder.tvCurrency.setTextColor(report.getTotal() >= 0 ? green : red);
-            viewHolder.tvCurrency.setText(report.getCurrency());
+            viewHolder.tvTotal!!.setTextColor(if (report.total >= 0) green else red)
+            viewHolder.tvTotal!!.text = formatController!!.formatSignedAmount(report.total)
+            viewHolder.tvCurrency!!.setTextColor(if (report.total >= 0) green else red)
+            viewHolder.tvCurrency!!.text = report.currency
         }
     }
 
-    public static class ViewHolder {
+    class ViewHolder(view: View?) {
         @BindView(R.id.spinnerCurrency)
-        AppCompatSpinner spinnerCurrency;
-        @BindView(R.id.tvTotal)
-        TextView tvTotal;
-        @BindView(R.id.tvCurrency)
-        TextView tvCurrency;
+        var spinnerCurrency: AppCompatSpinner? = null
 
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        @BindView(R.id.tvTotal)
+        var tvTotal: TextView? = null
+
+        @BindView(R.id.tvCurrency)
+        var tvCurrency: TextView? = null
+
+        init {
+            ButterKnife.bind(this, view!!)
         }
+    }
+
+    init {
+        this.context = context
+        layoutInflater = LayoutInflater.from(context)
+        red = context.resources.getColor(R.color.red)
+        green = context.resources.getColor(R.color.green)
+        get()!!.appComponent!!.inject(this@AccountsSummaryPresenter)
+        reportMaker = ReportMaker(rateController)
     }
 }

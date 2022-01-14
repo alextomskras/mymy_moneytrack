@@ -1,6 +1,6 @@
 package com.dreamer.mymy_moneytrack.report.account;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Interface that represents a contract of access to accounts report data.

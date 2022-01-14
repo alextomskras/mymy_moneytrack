@@ -1,6 +1,6 @@
 package com.dreamer.mymy_moneytrack.report.account;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreamer.mymy_moneytrack.entity.data.Account;
 import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
@@ -18,8 +18,8 @@ public class AccountsReport implements IAccountsReport {
     @SuppressWarnings("unused")
     private static final String TAG = "AccountsReport";
 
-    private String currency;
-    private IExchangeRateProvider rateProvider;
+    private final String currency;
+    private final IExchangeRateProvider rateProvider;
 
     private double total;
 

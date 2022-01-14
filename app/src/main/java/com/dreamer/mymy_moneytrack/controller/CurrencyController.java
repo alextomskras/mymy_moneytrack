@@ -1,6 +1,6 @@
 package com.dreamer.mymy_moneytrack.controller;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreamer.mymy_moneytrack.controller.data.AccountController;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
@@ -22,10 +22,11 @@ import java.util.Set;
  * @author Evgenii Kanivets
  */
 public class CurrencyController {
-    private AccountController accountController;
-    private PreferenceController preferenceController;
+    private final AccountController accountController;
+    private final PreferenceController preferenceController;
 
-    @NonNull private List<String> currencyList;
+    @NonNull
+    private List<String> currencyList;
 
     public CurrencyController(AccountController accountController, PreferenceController preferenceController) {
         this.accountController = accountController;
@@ -33,7 +34,8 @@ public class CurrencyController {
         currencyList = fetchCurrencies();
     }
 
-    @NonNull public List<String> readAll() {
+    @NonNull
+    public List<String> readAll() {
         return currencyList;
     }
 

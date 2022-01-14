@@ -1,20 +1,21 @@
 package com.dreamer.mymy_moneytrack.di.module.repo;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
-import com.dreamer.mymy_moneytrack.repo.DbHelper;
+import androidx.annotation.NonNull;
+
 import com.dreamer.mymy_moneytrack.entity.data.Account;
 import com.dreamer.mymy_moneytrack.entity.data.Category;
 import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
 import com.dreamer.mymy_moneytrack.entity.data.Record;
 import com.dreamer.mymy_moneytrack.entity.data.Transfer;
+import com.dreamer.mymy_moneytrack.repo.DbHelper;
+import com.dreamer.mymy_moneytrack.repo.base.IRepo;
 import com.dreamer.mymy_moneytrack.repo.data.AccountRepo;
 import com.dreamer.mymy_moneytrack.repo.data.CategoryRepo;
 import com.dreamer.mymy_moneytrack.repo.data.ExchangeRateRepo;
 import com.dreamer.mymy_moneytrack.repo.data.RecordRepo;
 import com.dreamer.mymy_moneytrack.repo.data.TransferRepo;
-import com.dreamer.mymy_moneytrack.repo.base.IRepo;
 
 import javax.inject.Singleton;
 
@@ -29,7 +30,7 @@ import dagger.Provides;
  */
 @Module
 public class RepoModule {
-    private Context context;
+    private final Context context;
 
     public RepoModule(Context context) {
         this.context = context;
