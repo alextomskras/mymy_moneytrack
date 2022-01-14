@@ -3,7 +3,6 @@ package com.dreamer.mymy_moneytrack.activity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.dreamer.mymy_moneytrack.MtApp
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity
 import com.dreamer.mymy_moneytrack.adapter.RecordReportAdapter

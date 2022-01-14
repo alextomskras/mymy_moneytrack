@@ -1,11 +1,10 @@
 package com.dreamer.mymy_moneytrack.activity.base
 
 import android.os.Bundle
-import androidx.core.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dreamer.mymy_moneytrack.MtApp
+import androidx.core.app.Fragment
 import com.dreamer.mymy_moneytrack.di.AppComponent
 
 abstract class BaseFragment : Fragment() {

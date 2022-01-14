@@ -8,9 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.dreamer.mymy_moneytrack.controller.CurrencyController;
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
+import com.dreamer.mymy_moneytrack.controller.CurrencyController;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
 import com.dreamer.mymy_moneytrack.controller.data.AccountController;
 import com.dreamer.mymy_moneytrack.controller.data.ExchangeRateController;
@@ -42,8 +41,8 @@ public class AccountsSummaryPresenter extends BaseSummaryPresenter {
     @Inject
     FormatController formatController;
 
-    private int red;
-    private int green;
+    private final int red;
+    private final int green;
     private View view;
     private final ReportMaker reportMaker;
 

@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.PeriodController;
 import com.dreamer.mymy_moneytrack.entity.Period;

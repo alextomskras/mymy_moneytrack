@@ -1,24 +1,19 @@
 package com.dreamer.mymy_moneytrack.util.validator;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
+import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Util class for Account validation.
- * Created on 06.12.2016.
- *
- * @author Evgenii Kanivets
- */
 
 public class AccountValidator implements IValidator<Account> {
 

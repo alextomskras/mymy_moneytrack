@@ -1,20 +1,16 @@
 package com.dreamer.mymy_moneytrack.util.validator;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-/**
- * Custom TextWatcher which resets an error when text changed
- * Created on 07.12.2016.
- *
- * @author Evgenii Kanivets
- */
+import androidx.annotation.NonNull;
+
+import com.google.android.material.textfield.TextInputLayout;
+
 
 public class ClearErrorTextWatcher implements TextWatcher {
     @NonNull
-    private TextInputLayout til;
+    private final TextInputLayout til;
 
     public ClearErrorTextWatcher(@NonNull TextInputLayout til) {
         this.til = til;

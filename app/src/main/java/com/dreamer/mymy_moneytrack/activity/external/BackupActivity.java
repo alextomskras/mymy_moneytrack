@@ -6,16 +6,18 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ListView;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
 import com.dreamer.mymy_moneytrack.adapter.BackupAdapter;
-import com.dreamer.mymy_moneytrack.controller.backup.BackupController;
 import com.dreamer.mymy_moneytrack.controller.PreferenceController;
+import com.dreamer.mymy_moneytrack.controller.backup.BackupController;
 import com.dreamer.mymy_moneytrack.util.CrashlyticsProxy;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.DbxClientV2;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -24,8 +26,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
 
 public class BackupActivity extends BaseBackActivity

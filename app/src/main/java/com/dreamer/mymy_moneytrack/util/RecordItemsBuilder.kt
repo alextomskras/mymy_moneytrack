@@ -1,6 +1,5 @@
 package com.dreamer.mymy_moneytrack.util
 
-import com.dreamer.mymy_moneytrack.MtApp
 import com.dreamer.mymy_moneytrack.controller.FormatController
 import com.dreamer.mymy_moneytrack.entity.RecordItem
 import com.dreamer.mymy_moneytrack.entity.data.Record

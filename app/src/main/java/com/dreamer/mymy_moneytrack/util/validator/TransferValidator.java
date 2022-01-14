@@ -1,24 +1,24 @@
 package com.dreamer.mymy_moneytrack.util.validator;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.dreamer.mymy_moneytrack.R;
+import com.dreamer.mymy_moneytrack.activity.account.TransferActivity;
 import com.dreamer.mymy_moneytrack.entity.data.Transfer;
+import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Util class for Transfer validation.
- * Created on 07.12.2016.
- *
- * @author Evgenii Kanivets
+
  */
 
 @SuppressWarnings("WeakerAccess")
@@ -40,7 +40,7 @@ public class TransferValidator implements IValidator<Transfer> {
     @BindView(R.id.et_to_amount)
     EditText etToAmount;
 
-    public TransferValidator(@NonNull Context context, @NonNull View view) {
+    public TransferValidator(@NonNull TransferActivity context, @NonNull View view) {
         this.context = context;
         ButterKnife.bind(this, view);
         initTextWatchers();

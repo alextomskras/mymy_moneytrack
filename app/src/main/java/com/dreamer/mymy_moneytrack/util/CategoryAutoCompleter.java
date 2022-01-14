@@ -1,7 +1,8 @@
 package com.dreamer.mymy_moneytrack.util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dreamer.mymy_moneytrack.controller.PreferenceController;
 import com.dreamer.mymy_moneytrack.controller.data.CategoryController;
@@ -11,16 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Util class to encapsulate category autocomplete logic.
- * Created on 3/18/16.
- *
- * @author Evgenii Kanivets
- */
+
 public class CategoryAutoCompleter {
 
-    private List<String> categoryList;
-    private Map<String, String> recordTitleCategoryMap;
+    private final List<String> categoryList;
+    private final Map<String, String> recordTitleCategoryMap;
 
     @NonNull
     private final CategoryController categoryController;

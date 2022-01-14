@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
@@ -30,14 +29,14 @@ public class AccountAdapter extends BaseAdapter {
     @Inject
     FormatController formatController;
 
-    private Context context;
-    private List<Account> accounts;
+    private final Context context;
+    private final List<Account> accounts;
 
-    private int whiteRed;
-    private int whiteGreen;
-    private int red;
-    private int green;
-    private int grey;
+    private final int whiteRed;
+    private final int whiteGreen;
+    private final int red;
+    private final int green;
+    private final int grey;
 
     @SuppressWarnings("deprecation")
     public AccountAdapter(Context context, List<Account> accounts) {

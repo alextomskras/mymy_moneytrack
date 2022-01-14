@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.di.AppComponent;
 
 import butterknife.ButterKnife;

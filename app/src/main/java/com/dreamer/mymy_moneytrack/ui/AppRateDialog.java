@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.PreferenceController;
 
@@ -18,7 +17,7 @@ import butterknife.OnClick;
 public class AppRateDialog extends AlertDialog {
     private static final String GP_MARKET = "market://details?id=";
 
-    private Context context;
+    private final Context context;
 
     @Inject
     PreferenceController preferenceController;

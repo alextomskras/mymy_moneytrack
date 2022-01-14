@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
 import com.dreamer.mymy_moneytrack.entity.Period;
@@ -32,8 +31,8 @@ public class ShortSummaryPresenter extends BaseSummaryPresenter {
     @Inject
     FormatController formatController;
 
-    private int red;
-    private int green;
+    private final int red;
+    private final int green;
     private View view;
 
     public ShortSummaryPresenter(Context context) {

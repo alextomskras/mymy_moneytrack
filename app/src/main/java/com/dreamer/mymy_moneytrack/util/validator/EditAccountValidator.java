@@ -1,14 +1,17 @@
 package com.dreamer.mymy_moneytrack.util.validator;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import androidx.annotation.NonNull;
+
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
+import com.google.android.material.textfield.TextInputLayout;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Util class for EditAccount validation.

@@ -1,11 +1,13 @@
 package com.dreamer.mymy_moneytrack.activity.account;
 
-import android.support.v7.widget.AppCompatSpinner;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
@@ -73,7 +75,7 @@ public class TransferActivity extends BaseBackActivity {
         transferValidator = new TransferValidator(TransferActivity.this, contentView);
 
         if (accounts.size() == 0) {
-            accounts.add(getString(R.string.none));
+            accounts.add(String.valueOf((R.string.none)));
             spinnerFrom.setEnabled(false);
             spinnerTo.setEnabled(false);
         }
@@ -87,7 +89,7 @@ public class TransferActivity extends BaseBackActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_transfer, menu);
+        getContentViewId().inflate(R.menu.menu_transfer, menu);
         return true;
     }
 

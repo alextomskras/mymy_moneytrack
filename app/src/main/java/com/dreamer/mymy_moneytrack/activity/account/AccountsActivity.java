@@ -1,10 +1,13 @@
 package com.dreamer.mymy_moneytrack.activity.account;
 
+//import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.account.edit.EditAccountActivity;

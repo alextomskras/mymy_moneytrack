@@ -1,16 +1,18 @@
 package com.dreamer.mymy_moneytrack.activity.account;
 
-import android.support.v7.widget.AppCompatSpinner;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
-import com.dreamer.mymy_moneytrack.controller.data.AccountController;
 import com.dreamer.mymy_moneytrack.controller.CurrencyController;
+import com.dreamer.mymy_moneytrack.controller.data.AccountController;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
 import com.dreamer.mymy_moneytrack.util.CrashlyticsProxy;
 import com.dreamer.mymy_moneytrack.util.validator.AccountValidator;

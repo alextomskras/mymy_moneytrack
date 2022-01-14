@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
 import com.dreamer.mymy_moneytrack.entity.ExchangeRatePair;
@@ -30,8 +29,8 @@ public class ExchangeRateAdapter extends BaseAdapter {
     @Inject
     FormatController formatController;
 
-    private Context context;
-    private List<ExchangeRatePair> exchangeRates;
+    private final Context context;
+    private final List<ExchangeRatePair> exchangeRates;
 
     public ExchangeRateAdapter(Context context, List<ExchangeRatePair> exchangeRates) {
         this.context = context;

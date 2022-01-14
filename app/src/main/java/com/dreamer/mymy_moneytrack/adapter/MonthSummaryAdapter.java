@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
 import com.dreamer.mymy_moneytrack.report.chart.IMonthReport;
@@ -35,9 +34,9 @@ public class MonthSummaryAdapter extends BaseAdapter {
     FormatController formatController;
 
     @NonNull
-    private Context context;
+    private final Context context;
     @NonNull
-    private IMonthReport monthReport;
+    private final IMonthReport monthReport;
     @NonNull
     private final SimpleDateFormat dateFormat;
 

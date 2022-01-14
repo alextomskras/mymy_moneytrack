@@ -1,6 +1,7 @@
 package com.dreamer.mymy_moneytrack.util;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.dreamer.mymy_moneytrack.entity.ExchangeRatePair;
 import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
@@ -12,15 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Util class to summarize list of {@link ExchangeRate}s.
- * Returns only rates with unique pairs of currencies.
- * Created on 4/1/16.
- *
- * @author Evgenii Kanivets
- */
+
 public class ExchangeRatesSummarizer {
-    private List<ExchangeRate> rateList;
+    private final List<ExchangeRate> rateList;
 
     public ExchangeRatesSummarizer(@NonNull List<ExchangeRate> rateList) {
         this.rateList = rateList;

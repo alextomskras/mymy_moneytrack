@@ -1,6 +1,5 @@
 package com.dreamer.mymy_moneytrack.report.record.model;
 
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 
 /**
@@ -10,9 +9,9 @@ import com.dreamer.mymy_moneytrack.R;
  * @author Evgenii Kanivets
  */
 public class SummaryRecord {
-    private String title;
-    private String currency;
-    private double amount;
+    private final String title;
+    private final String currency;
+    private final double amount;
 
     public SummaryRecord(String title, String currency, double amount, int recordsCount) {
         this.title = buildTitle(title, recordsCount);

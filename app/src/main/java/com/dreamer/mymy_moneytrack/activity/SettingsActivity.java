@@ -7,13 +7,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.dreamer.mymy_moneytrack.BuildConfig;
-import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
+import com.dreamer.mymy_moneytrack.controller.CurrencyController;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
 import com.dreamer.mymy_moneytrack.controller.PreferenceController;
 import com.dreamer.mymy_moneytrack.controller.data.AccountController;
-import com.dreamer.mymy_moneytrack.controller.CurrencyController;
 import com.dreamer.mymy_moneytrack.entity.data.Account;
 
 import java.util.ArrayList;
@@ -152,9 +151,10 @@ public class SettingsActivity extends BaseBackActivity {
             return result.toArray(new String[0]);
         }
 
-        private Preference.OnPreferenceChangeListener preferenceChangeListener =
+        private final Preference.OnPreferenceChangeListener preferenceChangeListener =
                 new Preference.OnPreferenceChangeListener() {
-                    @Override public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
                         // Previously we could set summary to default value,
                         // but now it's needed to display selected entry
                         preference.setSummary("%s");
