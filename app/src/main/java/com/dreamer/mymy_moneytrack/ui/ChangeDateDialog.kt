@@ -1,67 +1,50 @@
-package com.dreamer.mymy_moneytrack.ui;
+package com.dreamer.mymy_moneytrack.ui
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.DatePicker;
-
-import com.dreamer.mymy_moneytrack.R;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import android.app.AlertDialog
+import android.content.Context
+import android.os.Bundle
+import android.widget.DatePicker
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.OnClick
+import com.dreamer.mymy_moneytrack.R
+import java.util.*
 
 /**
- * Created on 10/09/14.
  *
- * @author Evgenii Kanivets
  */
-public class ChangeDateDialog extends AlertDialog{
-
-    private Date date;
-    private OnDateChangedListener listener;
-
+class ChangeDateDialog(
+    context: Context?,
+    private val date: Date,
+    private val listener: OnDateChangedListener
+) : AlertDialog(context) {
     @BindView(R.id.datePicker)
-    DatePicker datePicker;
-
-    public ChangeDateDialog(Context context, Date date, OnDateChangedListener listener) {
-        super(context);
-        this.date = date;
-        this.listener = listener;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_change_date);
-        ButterKnife.bind(ChangeDateDialog.this);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-
-        datePicker.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), null);
+    var datePicker: DatePicker? = null
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.dialog_change_date)
+        ButterKnife.bind(this@ChangeDateDialog)
+        val cal = Calendar.getInstance()
+        cal.time = date
+        datePicker!!.init(cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH], null)
     }
 
     @OnClick(R.id.b_ok)
-    public void ok() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, datePicker.getYear());
-        cal.set(Calendar.MONTH, datePicker.getMonth());
-        cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-
-        listener.OnDataChanged(cal.getTime());
-        dismiss();
+    fun ok() {
+        val cal = Calendar.getInstance()
+        cal[Calendar.YEAR] = datePicker!!.year
+        cal[Calendar.MONTH] = datePicker!!.month
+        cal[Calendar.DAY_OF_MONTH] = datePicker!!.dayOfMonth
+        listener.OnDataChanged(cal.time)
+        dismiss()
     }
 
     @OnClick(R.id.b_cancel)
-    public void cancel() {
-        dismiss();
+    override fun cancel() {
+        dismiss()
     }
 
-    public interface OnDateChangedListener {
-        void OnDataChanged(Date date);
+    interface OnDateChangedListener {
+        fun OnDataChanged(date: Date?)
     }
 }

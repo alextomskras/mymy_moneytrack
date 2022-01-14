@@ -1,73 +1,62 @@
-package com.dreamer.mymy_moneytrack.util.validator;
+package com.dreamer.mymy_moneytrack.util.validator
 
-import android.content.Context;
-import android.view.View;
-import android.widget.EditText;
-
-import androidx.annotation.NonNull;
-
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.entity.data.Account;
-import com.google.android.material.textfield.TextInputLayout;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import android.content.Context
+import android.view.View
+import android.widget.EditText
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.entity.data.Account
+import com.google.android.material.textfield.TextInputLayout
 
 /**
  * Util class for EditAccount validation.
- * Created on 16.09.2018.
- *
- * @author Evgenii Kanivets
+
  */
+class EditAccountValidator(private val context: Context, view: View) : IValidator<Account?> {
+    @BindView(R.id.tilTitle)
+    var tilTitle: TextInputLayout? = null
 
-public class EditAccountValidator implements IValidator<Account> {
+    @BindView(R.id.etTitle)
+    var etTitle: EditText? = null
 
-    @NonNull private final Context context;
+    @BindView(R.id.tilGoal)
+    var tilGoal: TextInputLayout? = null
 
-    @BindView(R.id.tilTitle) TextInputLayout tilTitle;
-    @BindView(R.id.etTitle) EditText etTitle;
-    @BindView(R.id.tilGoal) TextInputLayout tilGoal;
-    @BindView(R.id.etGoal) EditText etGoal;
-
-    public EditAccountValidator(@NonNull Context context, @NonNull View view) {
-        this.context = context;
-        ButterKnife.bind(this, view);
-        initTextWatchers();
-    }
-
-    @Override public boolean validate() {
-        String title = etTitle.getText().toString().trim();
-        double goal = Double.MAX_VALUE;
-
+    @BindView(R.id.etGoal)
+    var etGoal: EditText? = null
+    override fun validate(): Boolean {
+        val title = etTitle!!.text.toString().trim { it <= ' ' }
+        var goal = Double.MAX_VALUE
         try {
-            goal = Double.parseDouble(etGoal.getText().toString().trim());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+            goal = etGoal!!.text.toString().trim { it <= ' ' }.toDouble()
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
         }
-
-        boolean valid = true;
-
+        var valid = true
         if (title.isEmpty()) {
-            tilTitle.setError(context.getString(R.string.field_cant_be_empty));
-            valid = false;
+            tilTitle!!.error = context.getString(R.string.field_cant_be_empty)
+            valid = false
         }
-
         if (goal == Double.MAX_VALUE) {
-            tilGoal.setError(context.getString(R.string.field_cant_be_empty));
-            goal = 0;
-            valid = false;
+            tilGoal!!.error = context.getString(R.string.field_cant_be_empty)
+            goal = 0.0
+            valid = false
         }
-
-        if (Math.abs(goal) > MAX_ABS_VALUE) {
-            tilGoal.setError(context.getString(R.string.too_rich_or_poor));
-            valid = false;
+        if (Math.abs(goal) > IValidator.MAX_ABS_VALUE) {
+            tilGoal!!.error = context.getString(R.string.too_rich_or_poor)
+            valid = false
         }
-
-        return valid;
+        return valid
     }
 
-    private void initTextWatchers() {
-        etTitle.addTextChangedListener(new ClearErrorTextWatcher(tilTitle));
-        etGoal.addTextChangedListener(new ClearErrorTextWatcher(tilGoal));
+    private fun initTextWatchers() {
+        etTitle!!.addTextChangedListener(ClearErrorTextWatcher(tilTitle!!))
+        etGoal!!.addTextChangedListener(ClearErrorTextWatcher(tilGoal!!))
+    }
+
+    init {
+        ButterKnife.bind(this, view)
+        initTextWatchers()
     }
 }

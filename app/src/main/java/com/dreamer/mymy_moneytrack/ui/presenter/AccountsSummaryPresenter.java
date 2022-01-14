@@ -1,13 +1,15 @@
 package com.dreamer.mymy_moneytrack.ui.presenter;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatSpinner;
+
+import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.controller.CurrencyController;
 import com.dreamer.mymy_moneytrack.controller.FormatController;
@@ -26,9 +28,7 @@ import butterknife.ButterKnife;
 
 /**
  * Util class to create and manage summary header view for .
- * Created on 2/26/16.
- *
- * @author Evgenii Kanivets
+
  */
 public class AccountsSummaryPresenter extends BaseSummaryPresenter {
 

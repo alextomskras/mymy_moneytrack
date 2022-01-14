@@ -1,221 +1,194 @@
-package com.dreamer.mymy_moneytrack.activity.external;
+package com.dreamer.mymy_moneytrack.activity.external
 
-import android.content.DialogInterface;
-import android.view.View;
-import android.widget.ListView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import android.view.View
+import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
+import butterknife.BindView
+import butterknife.OnClick
+import butterknife.OnItemClick
+import com.dreamer.mymy_moneytrack.MtApp
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity
+import com.dreamer.mymy_moneytrack.adapter.BackupAdapter
+import com.dreamer.mymy_moneytrack.controller.PreferenceController
+import com.dreamer.mymy_moneytrack.controller.backup.BackupController
+import com.dreamer.mymy_moneytrack.util.CrashlyticsProxy
+import com.dropbox.core.DbxRequestConfig
+import com.dropbox.core.android.Auth
+import com.dropbox.core.v2.DbxClientV2
+import timber.log.Timber
+import javax.inject.Inject
 
-import com.dreamer.mymy_moneytrack.MtApp;
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
-import com.dreamer.mymy_moneytrack.adapter.BackupAdapter;
-import com.dreamer.mymy_moneytrack.controller.PreferenceController;
-import com.dreamer.mymy_moneytrack.controller.backup.BackupController;
-import com.dreamer.mymy_moneytrack.util.CrashlyticsProxy;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.android.Auth;
-import com.dropbox.core.v2.DbxClientV2;
+class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
+    BackupController.OnBackupListener {
+    @Inject
+    var preferenceController: PreferenceController? = null
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+    @Inject
+    var backupController: BackupController? = null
+    private var dbClient: DbxClientV2? = null
 
-import java.util.List;
+    @BindView(R.id.btn_backup_now)
+    var btnBackupNow: View? = null
 
-import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import butterknife.OnItemClick;
-import timber.log.Timber;
-
-public class BackupActivity extends BaseBackActivity
-        implements BackupAdapter.OnBackupListener, BackupController.OnBackupListener {
-    private static final String APP_KEY = "5lqugcckdy9y6lj";
-
-    @Inject PreferenceController preferenceController;
-    @Inject BackupController backupController;
-
-    private DbxClientV2 dbClient;
-
-    @BindView(R.id.btn_backup_now) View btnBackupNow;
-    @BindView(R.id.listView) ListView listView;
-
-    @Override protected int getContentViewId() {
-        return R.layout.activity_backup;
+    @BindView(R.id.listView)
+    var listView: ListView? = null
+    override fun getContentViewId(): Int {
+        return R.layout.activity_backup
     }
 
-    @Override protected boolean initData() {
-        getAppComponent().inject(BackupActivity.this);
-
-        String accessToken = preferenceController.readDropboxAccessToken();
+    override fun initData(): Boolean {
+        appComponent.inject(this@BackupActivity)
+        val accessToken = preferenceController!!.readDropboxAccessToken()
         if (accessToken == null) {
-            Auth.startOAuth2Authentication(BackupActivity.this, APP_KEY);
+            Auth.startOAuth2Authentication(this@BackupActivity, APP_KEY)
         } else {
-            DbxRequestConfig config = new DbxRequestConfig("open_money_tracker");
-            dbClient = new DbxClientV2(config, accessToken);
-            backupController.setOnBackupListener(this);
-            fetchBackups();
+            val config = DbxRequestConfig("open_money_tracker")
+            dbClient = DbxClientV2(config, accessToken)
+            backupController!!.onBackupListener = this
+            fetchBackups()
         }
-
-        return super.initData();
+        return super.initData()
     }
 
-    @Override protected void initViews() {
-        super.initViews();
-        btnBackupNow.setEnabled(preferenceController.readDropboxAccessToken() != null);
+    override fun initViews() {
+        super.initViews()
+        btnBackupNow!!.isEnabled = preferenceController!!.readDropboxAccessToken() != null
     }
 
-    @Override protected void onResume() {
-        super.onResume();
-
+    override fun onResume() {
+        super.onResume()
         if (Auth.getOAuth2Token() != null) {
             try {
-                preferenceController.writeDropboxAccessToken(Auth.getOAuth2Token());
-                btnBackupNow.setEnabled(true);
-                DbxRequestConfig config = new DbxRequestConfig("open_money_tracker");
-                dbClient = new DbxClientV2(config, Auth.getOAuth2Token());
-                fetchBackups();
-            } catch (IllegalStateException e) {
-                Timber.e("Error authenticating: %s", e.getMessage());
+                preferenceController!!.writeDropboxAccessToken(Auth.getOAuth2Token())
+                btnBackupNow!!.isEnabled = true
+                val config = DbxRequestConfig("open_money_tracker")
+                dbClient = DbxClientV2(config, Auth.getOAuth2Token())
+                fetchBackups()
+            } catch (e: IllegalStateException) {
+                Timber.e("Error authenticating: %s", e.message)
             }
         }
     }
 
-    @Override public void onBackupDelete(@NotNull final String backupName) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BackupActivity.this);
-        builder.setTitle(getString(R.string.delete_backup_title));
-        builder.setMessage(getString(R.string.delete_backup_message, backupName));
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override public void onClick(DialogInterface dialog, int which) {
-                removeBackup(backupName);
-            }
-        });
-        builder.setNegativeButton(android.R.string.cancel, null);
-        builder.show();
+    override fun onBackupDelete(backupName: String) {
+        val builder = AlertDialog.Builder(this@BackupActivity)
+        builder.setTitle(getString(R.string.delete_backup_title))
+        builder.setMessage(getString(R.string.delete_backup_message, backupName))
+        builder.setPositiveButton(android.R.string.ok) { dialog, which -> removeBackup(backupName) }
+        builder.setNegativeButton(android.R.string.cancel, null)
+        builder.show()
     }
 
-    @Override public void onBackupsFetched(@NonNull List<String> backupList) {
-        if (isFinishing()) return;
-
-        stopProgress();
-
-        BackupAdapter backupAdapter = new BackupAdapter(BackupActivity.this, backupList);
-        backupAdapter.setOnBackupListener(BackupActivity.this);
-        listView.setAdapter(backupAdapter);
+    override fun onBackupsFetched(backupList: List<String>) {
+        if (isFinishing) return
+        stopProgress()
+        val backupAdapter = BackupAdapter(this@BackupActivity, backupList)
+        backupAdapter.onBackupListener = this@BackupActivity
+        listView!!.adapter = backupAdapter
     }
 
-    @Override public void onBackupSuccess() {
-        CrashlyticsProxy.get().logEvent("Backup success");
-        Timber.d("Backup success.");
-        if (isFinishing()) return;
-
-        stopProgress();
-        fetchBackups();
+    override fun onBackupSuccess() {
+        CrashlyticsProxy.get().logEvent("Backup success")
+        Timber.d("Backup success.")
+        if (isFinishing) return
+        stopProgress()
+        fetchBackups()
     }
 
-    @Override public void onBackupFailure(String reason) {
-        CrashlyticsProxy.get().logEvent("Backup failure");
-        Timber.d("Backup failure.");
-        if (isFinishing()) return;
-
-        stopProgress();
-        showToast(R.string.failed_create_backup);
-
-        if (BackupController.OnBackupListener.ERROR_AUTHENTICATION.equals(reason)) logout();
+    override fun onBackupFailure(reason: String?) {
+        CrashlyticsProxy.get().logEvent("Backup failure")
+        Timber.d("Backup failure.")
+        if (isFinishing) return
+        stopProgress()
+        showToast(R.string.failed_create_backup)
+        if (BackupController.OnBackupListener.ERROR_AUTHENTICATION == reason) logout()
     }
 
-    @Override public void onRestoreSuccess(@NonNull String backupName) {
-        CrashlyticsProxy.get().logEvent("Restore Success");
-        Timber.d("Restore success.");
-        if (isFinishing()) return;
-
-        stopProgress();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(BackupActivity.this);
-        builder.setTitle(getString(R.string.backup_is_restored));
-        builder.setMessage(getString(R.string.backup_restored, backupName));
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override public void onDismiss(DialogInterface dialog) {
-                MtApp.get().buildAppComponent();
-                setResult(RESULT_OK);
-                finish();
-            }
-        });
-        builder.setPositiveButton(android.R.string.ok, null);
-        builder.show();
+    override fun onRestoreSuccess(backupName: String) {
+        CrashlyticsProxy.get().logEvent("Restore Success")
+        Timber.d("Restore success.")
+        if (isFinishing) return
+        stopProgress()
+        val builder = AlertDialog.Builder(this@BackupActivity)
+        builder.setTitle(getString(R.string.backup_is_restored))
+        builder.setMessage(getString(R.string.backup_restored, backupName))
+        builder.setOnDismissListener {
+            MtApp.get().buildAppComponent()
+            setResult(RESULT_OK)
+            finish()
+        }
+        builder.setPositiveButton(android.R.string.ok, null)
+        builder.show()
     }
 
-    @Override public void onRestoreFailure(String reason) {
-        CrashlyticsProxy.get().logEvent("Restore Failure");
-        Timber.d("Restore failure.");
-        if (isFinishing()) return;
-
-        stopProgress();
-        showToast(R.string.failed_restore_backup);
-
-        if (BackupController.OnBackupListener.ERROR_AUTHENTICATION.equals(reason)) logout();
+    override fun onRestoreFailure(reason: String?) {
+        CrashlyticsProxy.get().logEvent("Restore Failure")
+        Timber.d("Restore failure.")
+        if (isFinishing) return
+        stopProgress()
+        showToast(R.string.failed_restore_backup)
+        if (BackupController.OnBackupListener.ERROR_AUTHENTICATION == reason) logout()
     }
 
-    @Override public void onRemoveSuccess() {
-        CrashlyticsProxy.get().logEvent("Remove Success");
-        Timber.d("Remove success.");
-        if (isFinishing()) return;
-
-        stopProgress();
-        fetchBackups();
+    override fun onRemoveSuccess() {
+        CrashlyticsProxy.get().logEvent("Remove Success")
+        Timber.d("Remove success.")
+        if (isFinishing) return
+        stopProgress()
+        fetchBackups()
     }
 
-    @Override public void onRemoveFailure(@Nullable String reason) {
-        CrashlyticsProxy.get().logEvent("Remove Failure");
-        Timber.d("Remove failure.");
-        if (isFinishing()) return;
-
-        stopProgress();
-        showToast(reason);
+    override fun onRemoveFailure(reason: String?) {
+        CrashlyticsProxy.get().logEvent("Remove Failure")
+        Timber.d("Remove failure.")
+        if (isFinishing) return
+        stopProgress()
+        showToast(reason)
     }
 
-    @OnClick(R.id.btn_backup_now) public void backupNow() {
-        CrashlyticsProxy.get().logButton("Make Backup");
-        startProgress(getString(R.string.making_backup));
-        backupController.makeBackup(dbClient);
+    @OnClick(R.id.btn_backup_now)
+    fun backupNow() {
+        CrashlyticsProxy.get().logButton("Make Backup")
+        startProgress(getString(R.string.making_backup))
+        backupController!!.makeBackup(dbClient!!)
     }
 
-    @OnItemClick(R.id.listView) public void restoreBackupClicked(int position) {
-        CrashlyticsProxy.get().logButton("Restore backup");
-        final String backupName = listView.getAdapter().getItem(position).toString();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(BackupActivity.this);
-        builder.setTitle(getString(R.string.warning));
-        builder.setMessage(getString(R.string.want_erase_and_restore, backupName));
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override public void onClick(DialogInterface dialog, int which) {
-                restoreBackup(backupName);
-            }
-        });
-        builder.setNegativeButton(android.R.string.cancel, null);
-        builder.show();
+    @OnItemClick(R.id.listView)
+    fun restoreBackupClicked(position: Int) {
+        CrashlyticsProxy.get().logButton("Restore backup")
+        val backupName = listView!!.adapter.getItem(position).toString()
+        val builder = AlertDialog.Builder(this@BackupActivity)
+        builder.setTitle(getString(R.string.warning))
+        builder.setMessage(getString(R.string.want_erase_and_restore, backupName))
+        builder.setPositiveButton(android.R.string.ok) { dialog, which -> restoreBackup(backupName) }
+        builder.setNegativeButton(android.R.string.cancel, null)
+        builder.show()
     }
 
-    private void restoreBackup(final String backupName) {
-        startProgress(getString(R.string.restoring_backup));
-        backupController.restoreBackup(dbClient, backupName);
+    private fun restoreBackup(backupName: String) {
+        startProgress(getString(R.string.restoring_backup))
+        backupController!!.restoreBackup(dbClient!!, backupName)
     }
 
-    private void fetchBackups() {
-        startProgress(getString(R.string.fetching_backups));
-        backupController.fetchBackups(dbClient);
+    private fun fetchBackups() {
+        startProgress(getString(R.string.fetching_backups))
+        backupController!!.fetchBackups(dbClient!!)
     }
 
-    private void removeBackup(String backupName) {
-        startProgress(getString(R.string.removing_backup));
-        backupController.removeBackup(dbClient, backupName);
+    private fun removeBackup(backupName: String) {
+        startProgress(getString(R.string.removing_backup))
+        backupController!!.removeBackup(dbClient!!, backupName)
     }
 
-    private void logout() {
-        preferenceController.writeDropboxAccessToken(null);
-        Auth.startOAuth2Authentication(BackupActivity.this, APP_KEY);
-        btnBackupNow.setEnabled(false);
+    private fun logout() {
+        preferenceController!!.writeDropboxAccessToken(null)
+        Auth.startOAuth2Authentication(this@BackupActivity, APP_KEY)
+        btnBackupNow!!.isEnabled = false
+    }
+
+    companion object {
+        private const val APP_KEY = "5lqugcckdy9y6lj"
     }
 }

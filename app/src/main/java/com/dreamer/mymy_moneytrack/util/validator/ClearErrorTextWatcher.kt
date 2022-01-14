@@ -1,34 +1,14 @@
-package com.dreamer.mymy_moneytrack.util.validator;
+package com.dreamer.mymy_moneytrack.util.validator
 
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.Editable
+import android.text.TextWatcher
+import com.google.android.material.textfield.TextInputLayout
 
-import androidx.annotation.NonNull;
-
-import com.google.android.material.textfield.TextInputLayout;
-
-
-public class ClearErrorTextWatcher implements TextWatcher {
-    @NonNull
-    private final TextInputLayout til;
-
-    public ClearErrorTextWatcher(@NonNull TextInputLayout til) {
-        this.til = til;
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        til.setErrorEnabled(false);
-        til.setError(null);
+class ClearErrorTextWatcher(private val til: TextInputLayout) : TextWatcher {
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+    override fun afterTextChanged(s: Editable) {
+        til.isErrorEnabled = false
+        til.error = null
     }
 }

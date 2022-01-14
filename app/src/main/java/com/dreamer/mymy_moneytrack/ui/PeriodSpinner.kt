@@ -1,201 +1,155 @@
-package com.dreamer.mymy_moneytrack.ui;
+package com.dreamer.mymy_moneytrack.ui
 
-import android.content.Context;
-import android.support.v7.widget.AppCompatSpinner;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
-
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.controller.PeriodController;
-import com.dreamer.mymy_moneytrack.entity.Period;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.inject.Inject;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatSpinner
+import com.dreamer.mymy_moneytrack.MtApp
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.controller.PeriodController
+import com.dreamer.mymy_moneytrack.entity.Period
+import java.util.*
+import javax.inject.Inject
 
 /**
  * Custom Spinner view to encapsulate a Period logic.
- * Created on 3/16/16.
  *
- * @author Evgenii Kanivets
  */
-public class PeriodSpinner extends AppCompatSpinner {
-    private Context context;
+class PeriodSpinner : AppCompatSpinner {
+//    var context: Context? = null
 
     @Inject
-    PeriodController periodController;
+    var periodController: PeriodController? = null
+    private var periodSelectedListener: OnPeriodSelectedListener? = null
+    private var listener: OnItemSelectedListener? = null
+    private var lastPeriod: Period? = null
 
-    private OnPeriodSelectedListener periodSelectedListener;
-    private AdapterView.OnItemSelectedListener listener;
-    private Period lastPeriod;
-
-    public PeriodSpinner(Context context) {
-        super(context);
-        init(context);
+    constructor(context: Context) : super(context) {
+        init(context)
     }
 
-    public PeriodSpinner(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context)
     }
 
-    public PeriodSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context)
     }
 
-    public void updatePeriod(Period period) {
-        if (lastPeriod != null && lastPeriod.equals(period)) return;
-        if (periodSelectedListener != null) periodSelectedListener.onPeriodSelected(period);
-
-        lastPeriod = period;
+    fun updatePeriod(period: Period) {
+        if (lastPeriod != null && lastPeriod == period) return
+        if (periodSelectedListener != null) periodSelectedListener!!.onPeriodSelected(period)
+        lastPeriod = period
     }
 
-    public void setPeriod(Period period) {
-
-        switch (period.getType()) {
-            case Period.TYPE_DAY:
-                setSelection(0);
-                break;
-
-            case Period.TYPE_WEEK:
-                setSelection(1);
-                break;
-
-            case Period.TYPE_MONTH:
-                setSelection(2);
-                break;
-
-            case Period.TYPE_YEAR:
-                setSelection(3);
-                break;
-
-            case Period.TYPE_ALL_TIME:
-                setSelection(4);
-                break;
-
-            case Period.TYPE_CUSTOM:
-                super.setSelection(5);
-                updatePeriod(period);
-                break;
+    fun setPeriod(period: Period) {
+        when (period.type) {
+            Period.TYPE_DAY -> setSelection(0)
+            Period.TYPE_WEEK -> setSelection(1)
+            Period.TYPE_MONTH -> setSelection(2)
+            Period.TYPE_YEAR -> setSelection(3)
+            Period.TYPE_ALL_TIME -> setSelection(4)
+            Period.TYPE_CUSTOM -> {
+                super.setSelection(5)
+                updatePeriod(period)
+            }
         }
-
     }
 
-    public void setPeriodSelectedListener(OnPeriodSelectedListener periodSelectedListener) {
-        this.periodSelectedListener = periodSelectedListener;
+    fun setPeriodSelectedListener(periodSelectedListener: OnPeriodSelectedListener?) {
+        this.periodSelectedListener = periodSelectedListener
     }
 
-    @Override
-    public void setSelection(int position) {
-        super.setSelection(position);
-        if (listener != null) listener.onItemSelected(null, null, position, 0);
+    override fun setSelection(position: Int) {
+        super.setSelection(position)
+        if (listener != null) listener!!.onItemSelected(null, null, position, 0)
     }
 
-    public void setOnItemSelectedEvenIfUnchangedListener(OnItemSelectedListener listener) {
-        this.listener = listener;
+    fun setOnItemSelectedEvenIfUnchangedListener(listener: OnItemSelectedListener?) {
+        this.listener = listener
     }
 
-    private void init(Context context) {
-        this.context = context;
-        MtApp.get().getAppComponent().inject(PeriodSpinner.this);
-
-        setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.array_periods)));
-        setOnItemSelectedEvenIfUnchangedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.clear(Calendar.MINUTE);
-                calendar.clear(Calendar.SECOND);
-                calendar.clear(Calendar.MILLISECOND);
-
-                switch (position) {
-                    case 0:
-                        updatePeriod(periodController.dayPeriod());
-                        break;
-
-                    case 1:
-                        updatePeriod(periodController.weekPeriod());
-                        break;
-
-                    case 2:
-                        updatePeriod(periodController.monthPeriod());
-                        break;
-
-                    case 3:
-                        updatePeriod(periodController.yearPeriod());
-                        break;
-
-                    case 4:
-                        updatePeriod(periodController.allTimePeriod());
-                        break;
-
-                    case 5:
-                        // Custom period selection
-                        showFromDateDialog();
-                        break;
-
-                    default:
-                        break;
+    private fun init(context: Context) {
+        var context = context
+        MtApp.get().appComponent.inject(this@PeriodSpinner)
+        adapter = ArrayAdapter(
+            context, android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.array_periods)
+        )
+        setOnItemSelectedEvenIfUnchangedListener(object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val calendar = Calendar.getInstance()
+                calendar.clear(Calendar.MINUTE)
+                calendar.clear(Calendar.SECOND)
+                calendar.clear(Calendar.MILLISECOND)
+                when (position) {
+                    0 -> updatePeriod(periodController!!.dayPeriod())
+                    1 -> updatePeriod(periodController!!.weekPeriod())
+                    2 -> updatePeriod(periodController!!.monthPeriod())
+                    3 -> updatePeriod(periodController!!.yearPeriod())
+                    4 -> updatePeriod(periodController!!.allTimePeriod())
+                    5 ->                         // Custom period selection
+                        showFromDateDialog()
+                    else -> {}
                 }
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        })
     }
 
-    private void showFromDateDialog() {
-        if (lastPeriod == null) return;
-        ChangeDateDialog dialog = new ChangeDateDialog(context, lastPeriod.getFirst(),
-                new ChangeDateDialog.OnDateChangedListener() {
-                    @Override
-                    public void OnDataChanged(Date fromDate) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(fromDate);
-                        cal.set(Calendar.HOUR_OF_DAY, 0);
-                        cal.set(Calendar.MINUTE, 0);
-                        cal.set(Calendar.SECOND, 0);
-                        cal.set(Calendar.MILLISECOND, 0);
+    private fun showFromDateDialog() {
+        if (lastPeriod == null) return
+        val dialog = ChangeDateDialog(context, lastPeriod!!.first,
+            object : ChangeDateDialog.OnDateChangedListener {
+                override fun OnDataChanged(fromDate: Date?) {
+                    val cal = Calendar.getInstance()
+                    cal.time = fromDate
+                    cal[Calendar.HOUR_OF_DAY] = 0
+                    cal[Calendar.MINUTE] = 0
+                    cal[Calendar.SECOND] = 0
+                    cal[Calendar.MILLISECOND] = 0
+                    showToDateDialog(cal.time)
+                }
+            })
+        dialog.show()
+    }
 
-                        showToDateDialog(cal.getTime());
+    private fun showToDateDialog(fromDate: Date) {
+        if (lastPeriod == null) return
+        val dialog = ChangeDateDialog(context, lastPeriod!!.last,
+            object : ChangeDateDialog.OnDateChangedListener {
+                override fun OnDataChanged(toDate: Date?) {
+                    val cal = Calendar.getInstance()
+                    cal.time = toDate
+                    cal[Calendar.HOUR_OF_DAY] = 23
+                    cal[Calendar.MINUTE] = 59
+                    cal[Calendar.SECOND] = 59
+                    cal[Calendar.MILLISECOND] = 999
+                    if (cal.time.time < fromDate.time) {
+                        Toast.makeText(context, R.string.start_earlier_end, Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        updatePeriod(Period(fromDate, cal.time, Period.TYPE_CUSTOM))
                     }
-                });
-        dialog.show();
+                }
+            })
+        dialog.show()
     }
 
-    private void showToDateDialog(final Date fromDate) {
-        if (lastPeriod == null) return;
-
-        ChangeDateDialog dialog = new ChangeDateDialog(context, lastPeriod.getLast(),
-                new ChangeDateDialog.OnDateChangedListener() {
-                    @Override
-                    public void OnDataChanged(Date toDate) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(toDate);
-                        cal.set(Calendar.HOUR_OF_DAY, 23);
-                        cal.set(Calendar.MINUTE, 59);
-                        cal.set(Calendar.SECOND, 59);
-                        cal.set(Calendar.MILLISECOND, 999);
-
-                        if (cal.getTime().getTime() < fromDate.getTime()) {
-                            Toast.makeText(context, R.string.start_earlier_end, Toast.LENGTH_SHORT).show();
-                        } else {
-                            updatePeriod(new Period(fromDate, cal.getTime(), Period.TYPE_CUSTOM));
-                        }
-                    }
-                });
-        dialog.show();
-    }
-
-    public interface OnPeriodSelectedListener {
-        void onPeriodSelected(Period period);
+    interface OnPeriodSelectedListener {
+        fun onPeriodSelected(period: Period?)
     }
 }

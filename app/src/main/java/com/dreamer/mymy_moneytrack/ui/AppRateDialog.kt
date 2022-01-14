@@ -1,64 +1,64 @@
-package com.dreamer.mymy_moneytrack.ui;
+package com.dreamer.mymy_moneytrack.ui
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import butterknife.ButterKnife
+import butterknife.OnClick
+import com.dreamer.mymy_moneytrack.MtApp
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.controller.PreferenceController
+import javax.inject.Inject
 
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.controller.PreferenceController;
-
-import javax.inject.Inject;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class AppRateDialog extends AlertDialog {
-    private static final String GP_MARKET = "market://details?id=";
-
-    private final Context context;
-
+class AppRateDialog(context: Context) : AlertDialog(
+    context
+) {
     @Inject
-    PreferenceController preferenceController;
-
-    public AppRateDialog(Context context) {
-        super(context);
-        this.context = context;
-        MtApp.get().getAppComponent().inject(AppRateDialog.this);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_rate);
-        ButterKnife.bind(AppRateDialog.this);
+    var preferenceController: PreferenceController? = null
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.dialog_rate)
+        ButterKnife.bind(this@AppRateDialog)
     }
 
     @OnClick(R.id.yes_button)
-    public void yes() {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(GP_MARKET + context.getPackageName())));
-        preferenceController.appRated();
-        dismiss();
+    fun yes() {
+        context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(GP_MARKET + context.packageName)
+            )
+        )
+        preferenceController!!.appRated()
+        dismiss()
     }
 
     @OnClick(R.id.maybeButton)
-    public void maybe() {
-        dismiss();
+    fun maybe() {
+        dismiss()
     }
 
     @OnClick(R.id.thanksButton)
-    public void thanks() {
-        preferenceController.appRated();
-        dismiss();
+    fun thanks() {
+        preferenceController!!.appRated()
+        dismiss()
     }
 
-    @Override
-    public void dismiss() {
+    override fun dismiss() {
         try {
-            super.dismiss();
-        } catch (Exception e) {
-            e.printStackTrace();
+            super.dismiss()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+    companion object {
+        private const val GP_MARKET = "market://details?id="
+    }
+
+    init {
+        MtApp.get().appComponent.inject(this@AppRateDialog)
     }
 }
