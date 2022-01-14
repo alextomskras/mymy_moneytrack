@@ -9,7 +9,7 @@
     android:paddingEnd="@dimen/half_margin"
     android:paddingBottom="@dimen/quarter_margin">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,19 +17,19 @@
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackground"
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <ImageView
                     android:id="@+id/iv_more"
@@ -56,11 +56,11 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_more" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <include layout="@layout/view_divider" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -78,9 +78,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/half_margin"
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <include layout="@layout/view_divider" />
 
@@ -111,6 +111,6 @@
                 android:gravity="end"
                 android:textAlignment="viewEnd" />
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>

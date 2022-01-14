@@ -1,12 +1,14 @@
 package com.dreamer.mymy_moneytrack.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.dreamer.mymy_moneytrack.MtApp
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.controller.FormatController
 import com.dreamer.mymy_moneytrack.entity.RecordItem
@@ -36,7 +38,7 @@ class RecordAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context
         this.items = items
 
-        MtApp.get().appComponent.inject(this)
+        MtApp.get()?.appComponent?.inject(this)
 
         whiteRed = ContextCompat.getColor(context, R.color.white_red)
         whiteGreen = ContextCompat.getColor(context, R.color.white_green)

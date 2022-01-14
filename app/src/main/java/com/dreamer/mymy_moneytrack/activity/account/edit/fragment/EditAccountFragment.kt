@@ -42,7 +42,7 @@ class EditAccountFragment : BaseFragment() {
         val fabDone = view.rootView.findViewById<FloatingActionButton>(R.id.fabDone)
         fabDone.setOnClickListener { done() }
 
-        accountValidator = EditAccountValidator(context!!, view)
+        accountValidator = EditAccountValidator(requireContext(), view) as IValidator<Account>
     }
 
     private fun done() {
@@ -57,7 +57,7 @@ class EditAccountFragment : BaseFragment() {
             )
             val updated = accountController.update(newAccount) != null
             if (updated) {
-                CrashlyticsProxy.get().logEvent("Edit Account")
+                CrashlyticsProxy.get()?.logEvent("Edit Account")
                 activity?.setResult(Activity.RESULT_OK)
                 activity?.finish()
             }
