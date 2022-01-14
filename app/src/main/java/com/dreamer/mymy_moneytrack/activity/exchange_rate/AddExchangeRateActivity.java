@@ -1,12 +1,14 @@
 package com.dreamer.mymy_moneytrack.activity.exchange_rate;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatSpinner;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;

@@ -1,82 +1,76 @@
-package com.dreamer.mymy_moneytrack.activity.charts;
+package com.dreamer.mymy_moneytrack.activity.charts
 
-import android.support.design.widget.TabLayout;
-import androidx.core.app.Fragment;
-import androidx.core.view.ViewPager;
 
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
-import com.dreamer.mymy_moneytrack.activity.charts.fragment.GraphFragment;
-import com.dreamer.mymy_moneytrack.activity.charts.fragment.SummaryFragment;
-import com.dreamer.mymy_moneytrack.adapter.GeneralViewPagerAdapter;
-import com.dreamer.mymy_moneytrack.controller.CurrencyController;
-import com.dreamer.mymy_moneytrack.controller.data.ExchangeRateController;
-import com.dreamer.mymy_moneytrack.controller.data.RecordController;
-import com.dreamer.mymy_moneytrack.entity.data.Record;
-import com.dreamer.mymy_moneytrack.report.ReportMaker;
-import com.dreamer.mymy_moneytrack.report.chart.IMonthReport;
+import androidx.viewpager.widget.ViewPager
+import butterknife.BindView
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity
+import com.dreamer.mymy_moneytrack.activity.charts.fragment.GraphFragment
+import com.dreamer.mymy_moneytrack.activity.charts.fragment.SummaryFragment
+import com.dreamer.mymy_moneytrack.adapter.GeneralViewPagerAdapter
+import com.dreamer.mymy_moneytrack.controller.CurrencyController
+import com.dreamer.mymy_moneytrack.controller.data.ExchangeRateController
+import com.dreamer.mymy_moneytrack.controller.data.RecordController
+import com.dreamer.mymy_moneytrack.report.ReportMaker
+import com.dreamer.mymy_moneytrack.report.chart.IMonthReport
+import com.google.android.material.tabs.TabLayout
+import javax.inject.Inject
 
-import java.util.List;
+class ChartsActivity : BaseBackActivity() {
+    @Inject
+    var recordController: RecordController? = null
 
-import javax.inject.Inject;
+    @Inject
+    var exchangeRateController: ExchangeRateController? = null
 
-import butterknife.BindView;
+    @Inject
+    var currencyController: CurrencyController? = null
 
-public class ChartsActivity extends BaseBackActivity {
+    @BindView(R.id.tabs)
+    var tabLayout: TabLayout? = null
 
-    @Inject RecordController recordController;
-    @Inject ExchangeRateController exchangeRateController;
-    @Inject CurrencyController currencyController;
-
-    @BindView(R.id.tabs) TabLayout tabLayout;
-    @BindView(R.id.view_pager) ViewPager viewPager;
-
-    @Override protected int getContentViewId() {
-        return R.layout.activity_charts;
+    @BindView(R.id.view_pager)
+    var viewPager: ViewPager? = null
+    override fun getContentViewId(): Int {
+        return R.layout.activity_charts
     }
 
-    @Override protected boolean initData() {
-        boolean result = super.initData();
-        getAppComponent().inject(ChartsActivity.this);
-        return result;
+    override fun initData(): Boolean {
+        val result = super.initData()
+        appComponent.inject(this@ChartsActivity)
+        return result
     }
 
-    @Override protected void initViews() {
-        super.initViews();
-
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
+    override fun initViews() {
+        super.initViews()
+        setupViewPager(viewPager)
+        tabLayout!!.setupWithViewPager(viewPager)
     }
 
-    protected String createRatesNeededList(String currency, List<String> ratesNeeded) {
-        StringBuilder sb = new StringBuilder(getString(R.string.error_exchange_rates));
-
-        for (String str : ratesNeeded) {
-            sb.append("\n").append(str).append(getString(R.string.arrow)).append(currency);
+    protected fun createRatesNeededList(currency: String?, ratesNeeded: List<String?>): String {
+        val sb = StringBuilder(getString(R.string.error_exchange_rates))
+        for (str in ratesNeeded) {
+            sb.append("\n").append(str).append(getString(R.string.arrow)).append(currency)
         }
-
-        return sb.toString();
+        return sb.toString()
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ReportMaker reportMaker = new ReportMaker(exchangeRateController);
-        String currency = currencyController.readDefaultCurrency();
-        List<Record> recordList = recordController.readAll();
-        List<String> currencyNeeded = reportMaker.currencyNeeded(currency, recordList);
-
-        IMonthReport monthReport = null;
-        if (currencyNeeded.isEmpty()) monthReport = reportMaker.getMonthReport(currency, recordList);
-
-        Fragment graphFragment;
-        if (monthReport == null) {
-            graphFragment = GraphFragment.newInstance(createRatesNeededList(currency, currencyNeeded));
+    private fun setupViewPager(viewPager: ViewPager?) {
+        val reportMaker = ReportMaker(exchangeRateController)
+        val currency = currencyController!!.readDefaultCurrency()
+        val recordList = recordController!!.readAll()
+        val currencyNeeded = reportMaker.currencyNeeded(currency, recordList)
+        var monthReport: IMonthReport? = null
+        if (currencyNeeded.isEmpty()) monthReport = reportMaker.getMonthReport(currency, recordList)
+        val graphFragment: GraphFragment
+        graphFragment = if (monthReport == null) {
+            GraphFragment.newInstance(createRatesNeededList(currency, currencyNeeded))
         } else {
-            graphFragment = GraphFragment.newInstance(monthReport);
+            GraphFragment.newInstance(monthReport)
         }
-
-        GeneralViewPagerAdapter adapter = new GeneralViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(SummaryFragment.newInstance(monthReport), getString(R.string.summary));
-        adapter.addFragment(graphFragment, getString(R.string.graph));
-        viewPager.setAdapter(adapter);
+        val adapter = GeneralViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(SummaryFragment.newInstance(monthReport), getString(R.string.summary))
+        adapter.addFragment(graphFragment, getString(R.string.graph))
+        viewPager!!.adapter = adapter
     }
 }

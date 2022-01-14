@@ -2,7 +2,6 @@ package com.dreamer.mymy_moneytrack.activity.account.edit.fragment
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.view.View
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.R.layout
@@ -13,6 +12,7 @@ import com.dreamer.mymy_moneytrack.entity.data.Account
 import com.dreamer.mymy_moneytrack.util.CrashlyticsProxy
 import com.dreamer.mymy_moneytrack.util.validator.EditAccountValidator
 import com.dreamer.mymy_moneytrack.util.validator.IValidator
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_edit_account.*
 import javax.inject.Inject
 

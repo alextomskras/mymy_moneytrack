@@ -4,10 +4,10 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import androidx.core.view.ViewPager.OnPageChangeListener
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.activity.account.edit.fragment.AccountOperationsFragment
 import com.dreamer.mymy_moneytrack.activity.account.edit.fragment.EditAccountFragment
@@ -15,12 +15,9 @@ import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity
 import com.dreamer.mymy_moneytrack.adapter.GeneralViewPagerAdapter
 import com.dreamer.mymy_moneytrack.controller.data.AccountController
 import com.dreamer.mymy_moneytrack.entity.data.Account
-import kotlinx.android.synthetic.main.activity_edit_account.fabDone
-import kotlinx.android.synthetic.main.activity_edit_account.tabLayout
-import kotlinx.android.synthetic.main.activity_edit_account.viewPager
-import javax.inject.Inject
-import android.view.inputmethod.InputMethodManager
+import kotlinx.android.synthetic.main.activity_edit_account.*
 import kotlinx.android.synthetic.main.fragment_edit_account.*
+import javax.inject.Inject
 
 class EditAccountActivity : BaseBackActivity() {
 

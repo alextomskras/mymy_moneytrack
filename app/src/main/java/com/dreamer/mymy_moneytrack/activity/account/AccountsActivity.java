@@ -49,7 +49,7 @@ public class AccountsActivity extends BaseBackActivity {
     protected boolean initData() {
         boolean result = super.initData();
         getAppComponent().inject(AccountsActivity.this);
-        summaryPresenter = new AccountsSummaryPresenter(AccountsActivity.this);
+        summaryPresenter = new AccountsSummaryPresenter(this);
         return result;
     }
 

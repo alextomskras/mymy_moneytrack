@@ -1,110 +1,104 @@
-package com.dreamer.mymy_moneytrack.activity.charts.fragment;
+package com.dreamer.mymy_moneytrack.activity.charts.fragment
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import androidx.core.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import butterknife.BindView
+import com.dreamer.mymy_moneytrack.R
+import com.dreamer.mymy_moneytrack.report.chart.BarChartConverter
+import com.dreamer.mymy_moneytrack.report.chart.IMonthReport
+import kotlinx.android.synthetic.main.fragment_graph.*
 
-import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.report.chart.BarChartConverter;
-import com.dreamer.mymy_moneytrack.report.chart.IMonthReport;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link GraphFragment#newInstance} factory method to
+ * A simple [Fragment] subclass.
+ * Use the [GraphFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-public class GraphFragment extends Fragment {
-    private static final String ARG_MONTH_REPORT = "arg_month_report";
-    private static final String ARG_NO_DATA_TEXT = "arg_no_data_text";
+class GraphFragment : Fragment() {
+    private var monthReport: IMonthReport? = null
+    private var noDataText: String? = null
 
-    @Nullable
-    private IMonthReport monthReport;
-    @Nullable
-    private String noDataText;
-
+    //    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bar_chart)
-    BarChart barChart;
-
-    public GraphFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param monthReport report for some period grouped by months.
-     * @return A new instance of fragment GraphFragment.
-     */
-    public static GraphFragment newInstance(@NonNull IMonthReport monthReport) {
-        GraphFragment fragment = new GraphFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_MONTH_REPORT, monthReport);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param noDataText text that will be displayed in case of error.
-     * @return A new instance of fragment GraphFragment.
-     */
-    public static GraphFragment newInstance(@NonNull String noDataText) {
-        GraphFragment fragment = new GraphFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_NO_DATA_TEXT, noDataText);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            monthReport = getArguments().getParcelable(ARG_MONTH_REPORT);
-            noDataText = getArguments().getString(ARG_NO_DATA_TEXT);
+    var barChart: BarChart? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            monthReport = arguments!!.getParcelable(ARG_MONTH_REPORT)
+            noDataText = arguments!!.getString(ARG_NO_DATA_TEXT)
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_graph, container, false);
-        initViews(rootView);
-        return rootView;
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView: View = inflater.inflate(
+            layout,
+            container,
+            false
+        )
+        initViews(rootView)
+        return rootView
     }
 
-    private void initViews(@Nullable View rootView) {
-        if (rootView == null) return;
-        ButterKnife.bind(this, rootView);
-
+    private fun initViews(rootView: View?) {
+        if (rootView == null) return
+        BindView(this, rootView)
         if (monthReport == null) {
-            barChart.setNoDataText(noDataText);
+            barChart.setNoDataText(noDataText)
         } else {
-            BarChartConverter barChartConverter = new BarChartConverter(getActivity(), monthReport);
+            val barChartConverter = BarChartConverter(activity, monthReport)
+            val barData = BarData(
+                barChartConverter.xAxisValueList,
+                barChartConverter.barDataSetList
+            )
+            barData.setDrawValues(false)
+            barChart.setData(barData)
+            barChart.setDescription(null)
+            barChart.setVisibleXRangeMinimum(8)
+            barChart.setScaleYEnabled(false)
+            barChart.setVisibleXRangeMaximum(34)
+            barChart.setHighlightPerDragEnabled(false)
+            barChart.setHighlightPerTapEnabled(false)
+        }
+    }
 
-            BarData barData = new BarData(barChartConverter.getXAxisValueList(),
-                    barChartConverter.getBarDataSetList());
-            barData.setDrawValues(false);
+    companion object {
+        private const val ARG_MONTH_REPORT = "arg_month_report"
+        private const val ARG_NO_DATA_TEXT = "arg_no_data_text"
 
-            barChart.setData(barData);
-            barChart.setDescription(null);
-            barChart.setVisibleXRangeMinimum(8);
-            barChart.setScaleYEnabled(false);
-            barChart.setVisibleXRangeMaximum(34);
-            barChart.setHighlightPerDragEnabled(false);
-            barChart.setHighlightPerTapEnabled(false);
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param monthReport report for some period grouped by months.
+         * @return A new instance of fragment GraphFragment.
+         */
+        fun newInstance(monthReport: IMonthReport): GraphFragment {
+            val fragment = GraphFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_MONTH_REPORT, monthReport)
+            fragment.arguments = args
+            return fragment
+        }
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param noDataText text that will be displayed in case of error.
+         * @return A new instance of fragment GraphFragment.
+         */
+        fun newInstance(noDataText: String): GraphFragment {
+            val fragment = GraphFragment()
+            val args = Bundle()
+            args.putString(ARG_NO_DATA_TEXT, noDataText)
+            fragment.arguments = args
+            return fragment
         }
     }
 }

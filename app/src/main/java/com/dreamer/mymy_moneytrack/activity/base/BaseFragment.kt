@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.Fragment
+import androidx.fragment.app.Fragment
+import com.dreamer.mymy_moneytrack.MtApp
+
 import com.dreamer.mymy_moneytrack.di.AppComponent
 
 abstract class BaseFragment : Fragment() {

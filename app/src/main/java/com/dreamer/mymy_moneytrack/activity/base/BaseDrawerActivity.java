@@ -1,31 +1,30 @@
 package com.dreamer.mymy_moneytrack.activity.base;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.core.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.dreamer.mymy_moneytrack.R;
-import com.dreamer.mymy_moneytrack.activity.charts.ChartsActivity;
-import com.dreamer.mymy_moneytrack.activity.external.BackupActivity;
-import com.dreamer.mymy_moneytrack.activity.external.ImportExportActivity;
 import com.dreamer.mymy_moneytrack.activity.SettingsActivity;
 import com.dreamer.mymy_moneytrack.activity.account.AccountsActivity;
+import com.dreamer.mymy_moneytrack.activity.charts.ChartsActivity;
 import com.dreamer.mymy_moneytrack.activity.exchange_rate.ExchangeRatesActivity;
+import com.dreamer.mymy_moneytrack.activity.external.BackupActivity;
+import com.dreamer.mymy_moneytrack.activity.external.ImportExportActivity;
 import com.dreamer.mymy_moneytrack.util.CrashlyticsProxy;
+import com.google.android.material.navigation.NavigationView;
 
 import butterknife.BindView;
 
 /**
  * Base implementation of {@link android.support.v7.app.AppCompatActivity} to encapsulate Navigation
  * Drawer logic.
- * Created on 3/16/16.
- *
- * @author Evgenii Kanivets
+
  */
 public abstract class BaseDrawerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,10 +50,10 @@ public abstract class BaseDrawerActivity extends BaseActivity
 
     @Override
     protected Toolbar initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);

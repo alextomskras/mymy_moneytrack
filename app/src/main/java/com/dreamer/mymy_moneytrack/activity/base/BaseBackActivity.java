@@ -1,18 +1,17 @@
 package com.dreamer.mymy_moneytrack.activity.base;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.dreamer.mymy_moneytrack.R;
 
 /**
  * Base implementation of {@link AppCompatActivity} to describe some common
  * methods.
- * Created on 1/26/16.
- *
- * @author Evgenii Kanivets
+
  */
 public abstract class BaseBackActivity extends BaseActivity {
     @SuppressWarnings("unused")
@@ -34,7 +33,7 @@ public abstract class BaseBackActivity extends BaseActivity {
 
     @Override
     protected Toolbar initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();

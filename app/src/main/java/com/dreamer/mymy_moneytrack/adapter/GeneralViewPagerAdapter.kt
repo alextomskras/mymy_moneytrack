@@ -1,9 +1,11 @@
 package com.dreamer.mymy_moneytrack.adapter
 
-import androidx.core.app.Fragment
-import androidx.core.app.FragmentManager
-import androidx.core.app.FragmentPagerAdapter
-import java.util.ArrayList
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import com.dreamer.mymy_moneytrack.activity.charts.fragment.GraphFragment
+import java.util.*
 
 class GeneralViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
     private val fragmentList = ArrayList<Fragment>()
@@ -24,6 +26,10 @@ class GeneralViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(m
 
     override fun getPageTitle(position: Int): CharSequence? {
         return fragmentTitleList[position]
+    }
+
+    fun addFragment(graphFragment: GraphFragment, String: String) {
+
     }
 
 }
