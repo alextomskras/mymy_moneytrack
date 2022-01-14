@@ -1,16 +1,24 @@
-<androidx.appcompat.widget.LinearLayoutCompatxmlns:android="http://schemas.android.com/apk/res/android"xmlns:app="http://schemas.android.com/apk/res-auto"xmlns:tools="http://schemas.android.com/tools"android:layout_width="fill_parent"android:layout_height="fill_parent"android:orientation="vertical"app:layout_behavior="@string/appbar_scrolling_view_behavior"tools:showIn="@layout/activity_main">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main">
 
-<android.support.v7.widget.RecyclerView
-android:id="@+id/recyclerView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:drawSelectorOnTop="true"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.appcompat.widget.LinearLayoutCompat" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -33,6 +41,6 @@ android:id="@+id/recyclerView"
             android:background="@drawable/selector_add_expense"
             android:padding="@dimen/normal_margin"
             android:text="@string/add_expense" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

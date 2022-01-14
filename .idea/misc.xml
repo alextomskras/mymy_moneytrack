@@ -3,10 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_about.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_accounts.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_add_account.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_add_exchange_rate.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_add_record.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_backup.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_charts.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_edit_account.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_exchange_rates.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_import_export.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_main.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_report.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_settings.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/activity_transfer.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/content_accounts.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/content_add_account.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/content_add_record.xml" value="0.176" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/content_exchange_rates.xml" value="0.23385416666666667" />
+        <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/content_main.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/content_transfer.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/dialog_change_date.xml" value="0.23385416666666667" />
         <entry key="..\:/ANDROID-PROJECTS/mymy_moneytrack/app/src/main/res/layout/dialog_rate.xml" value="0.23385416666666667" />
