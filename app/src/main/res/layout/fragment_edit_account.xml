@@ -7,9 +7,9 @@
     android:padding="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-  <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/tilTitle"
-      android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTitle"
+        android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
   <EditText
