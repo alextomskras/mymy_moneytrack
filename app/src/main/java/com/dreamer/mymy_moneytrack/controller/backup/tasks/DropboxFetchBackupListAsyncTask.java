@@ -1,20 +1,23 @@
 package com.dreamer.mymy_moneytrack.controller.backup.tasks;
 
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+
 import com.dreamer.mymy_moneytrack.controller.backup.BackupController;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.Metadata;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class DropboxFetchBackupListAsyncTask extends AsyncTask<Void, List<String>, List<String>> {
-    private DbxClientV2 dbClient;
+    private final DbxClientV2 dbClient;
 
     @Nullable
-    private BackupController.OnBackupListener listener;
+    private final BackupController.OnBackupListener listener;
 
     public DropboxFetchBackupListAsyncTask(DbxClientV2 dbClient,
             @Nullable BackupController.OnBackupListener listener) {

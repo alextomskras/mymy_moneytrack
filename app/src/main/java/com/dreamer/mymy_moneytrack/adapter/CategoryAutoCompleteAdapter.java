@@ -22,9 +22,7 @@ import butterknife.ButterKnife;
 
 /**
  * Custom adapter to autocomplete categories.
- * Created on 3/18/16.
- *
- * @author Evgenii Kanivets
+
  */
 public class CategoryAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
     private final CategoryAutoCompleter autoCompleter;

@@ -1,6 +1,7 @@
 package com.dreamer.mymy_moneytrack.report.base;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.dreamer.mymy_moneytrack.entity.data.Account;
 import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;

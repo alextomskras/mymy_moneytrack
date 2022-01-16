@@ -2,7 +2,7 @@ package com.dreamer.mymy_moneytrack.repo.cache;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.LruCache;
+import androidx.collection.LruCache;
 
 import com.dreamer.mymy_moneytrack.entity.base.IEntity;
 import com.dreamer.mymy_moneytrack.repo.base.IRepo;

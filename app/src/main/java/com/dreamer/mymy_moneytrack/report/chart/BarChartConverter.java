@@ -18,9 +18,6 @@ import java.util.List;
 /**
  * Util class to convert {@link IMonthReport} to {@link com.github.mikephil.charting.charts.BarChart}
  * input data.
- * Created on 4/27/16.
- *
- * @author Evgenii Kanivets
  */
 public class BarChartConverter {
     private final IMonthReport report;

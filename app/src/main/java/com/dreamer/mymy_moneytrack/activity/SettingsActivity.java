@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.dreamer.mymy_moneytrack.BuildConfig;
+import com.dreamer.mymy_moneytrack.MtApp;
 import com.dreamer.mymy_moneytrack.R;
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity;
 import com.dreamer.mymy_moneytrack.controller.CurrencyController;
