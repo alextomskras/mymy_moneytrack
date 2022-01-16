@@ -7,11 +7,15 @@
     android:padding="@dimen/activity_vertical_margin"
     tools:context="com.dreamer.mymy_moneytrack.activity.charts.fragment.GraphFragment">
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/bar_chart"
+    <!--    <com.github.mikephil.charting.charts.BarChart-->
+    <!--        android:id="@+id/bar_chart"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        tools:ignore="MissingClass" />-->
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="MissingClass" />
+        android:layout_height="350dp" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
