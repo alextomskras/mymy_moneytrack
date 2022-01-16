@@ -15,8 +15,9 @@ import javax.inject.Inject
 class AppRateDialog(context: Context) : AlertDialog(
     context
 ) {
-    @Inject
+
     var preferenceController: PreferenceController? = null
+        @Inject set
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_rate)
@@ -59,6 +60,6 @@ class AppRateDialog(context: Context) : AlertDialog(
     }
 
     init {
-        MtApp.get().appComponent.inject(this@AppRateDialog)
+        MtApp.get()?.appComponent?.inject(this@AppRateDialog)
     }
 }

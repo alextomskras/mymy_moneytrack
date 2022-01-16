@@ -19,8 +19,9 @@ import javax.inject.Inject
 
 //import static androidx.core.app.ActivityCompat.startActivityForResult;
 class AccountsActivity : BaseBackActivity() {
-    @Inject
+//    @Inject
     var accountController: AccountController? = null
+    @Inject set
     private var summaryPresenter: AccountsSummaryPresenter? = null
 
     @BindView(R.id.listView)

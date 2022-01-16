@@ -11,7 +11,7 @@ import com.dreamer.mymy_moneytrack.di.AppComponent
 
 abstract class BaseFragment : Fragment() {
 
-    protected val appComponent: AppComponent = MtApp.get().appComponent
+    protected val appComponent: AppComponent = MtApp.get()?.appComponent!!
 
     protected abstract val contentViewId: Int
 

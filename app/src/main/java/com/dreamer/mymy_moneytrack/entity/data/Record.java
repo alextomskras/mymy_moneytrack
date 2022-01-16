@@ -2,10 +2,11 @@ package com.dreamer.mymy_moneytrack.entity.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 
-import com.dreamer.mymy_moneytrack.repo.DbHelper;
+import androidx.annotation.Nullable;
+
 import com.dreamer.mymy_moneytrack.entity.base.BaseEntity;
+import com.dreamer.mymy_moneytrack.repo.DbHelper;
 
 /**
  * Entity class. Immutable.

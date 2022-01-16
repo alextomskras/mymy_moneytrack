@@ -22,11 +22,13 @@ import javax.inject.Inject
 
 class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     BackupController.OnBackupListener {
-    @Inject
-    var preferenceController: PreferenceController? = null
 
-    @Inject
+    var preferenceController: PreferenceController? = null
+    @Inject set
+
+
     var backupController: BackupController? = null
+        @Inject set
     private var dbClient: DbxClientV2? = null
 
     @BindView(R.id.btn_backup_now)
@@ -90,7 +92,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     }
 
     override fun onBackupSuccess() {
-        CrashlyticsProxy.get().logEvent("Backup success")
+        CrashlyticsProxy.get()?.logEvent("Backup success")
         Timber.d("Backup success.")
         if (isFinishing) return
         stopProgress()
@@ -98,7 +100,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     }
 
     override fun onBackupFailure(reason: String?) {
-        CrashlyticsProxy.get().logEvent("Backup failure")
+        CrashlyticsProxy.get()?.logEvent("Backup failure")
         Timber.d("Backup failure.")
         if (isFinishing) return
         stopProgress()
@@ -107,7 +109,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     }
 
     override fun onRestoreSuccess(backupName: String) {
-        CrashlyticsProxy.get().logEvent("Restore Success")
+        CrashlyticsProxy.get()?.logEvent("Restore Success")
         Timber.d("Restore success.")
         if (isFinishing) return
         stopProgress()
@@ -115,7 +117,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
         builder.setTitle(getString(R.string.backup_is_restored))
         builder.setMessage(getString(R.string.backup_restored, backupName))
         builder.setOnDismissListener {
-            MtApp.get().buildAppComponent()
+            MtApp.get()?.buildAppComponent()
             setResult(RESULT_OK)
             finish()
         }
@@ -124,7 +126,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     }
 
     override fun onRestoreFailure(reason: String?) {
-        CrashlyticsProxy.get().logEvent("Restore Failure")
+        CrashlyticsProxy.get()?.logEvent("Restore Failure")
         Timber.d("Restore failure.")
         if (isFinishing) return
         stopProgress()
@@ -133,7 +135,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     }
 
     override fun onRemoveSuccess() {
-        CrashlyticsProxy.get().logEvent("Remove Success")
+        CrashlyticsProxy.get()?.logEvent("Remove Success")
         Timber.d("Remove success.")
         if (isFinishing) return
         stopProgress()
@@ -141,7 +143,7 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
     }
 
     override fun onRemoveFailure(reason: String?) {
-        CrashlyticsProxy.get().logEvent("Remove Failure")
+        CrashlyticsProxy.get()?.logEvent("Remove Failure")
         Timber.d("Remove failure.")
         if (isFinishing) return
         stopProgress()
@@ -150,14 +152,14 @@ class BackupActivity : BaseBackActivity(), BackupAdapter.OnBackupListener,
 
     @OnClick(R.id.btn_backup_now)
     fun backupNow() {
-        CrashlyticsProxy.get().logButton("Make Backup")
+        CrashlyticsProxy.get()?.logButton("Make Backup")
         startProgress(getString(R.string.making_backup))
         backupController!!.makeBackup(dbClient!!)
     }
 
     @OnItemClick(R.id.listView)
     fun restoreBackupClicked(position: Int) {
-        CrashlyticsProxy.get().logButton("Restore backup")
+        CrashlyticsProxy.get()?.logButton("Restore backup")
         val backupName = listView!!.adapter.getItem(position).toString()
         val builder = AlertDialog.Builder(this@BackupActivity)
         builder.setTitle(getString(R.string.warning))

@@ -21,9 +21,11 @@ import javax.inject.Inject
 class PeriodSpinner : AppCompatSpinner {
 //    var context: Context? = null
 
-    @Inject
+
     var periodController: PeriodController? = null
+    @Inject set
     private var periodSelectedListener: OnPeriodSelectedListener? = null
+        @Inject set
     private var listener: OnItemSelectedListener? = null
     private var lastPeriod: Period? = null
 
@@ -63,8 +65,8 @@ class PeriodSpinner : AppCompatSpinner {
         }
     }
 
-    fun setPeriodSelectedListener(periodSelectedListener: OnPeriodSelectedListener?) {
-        this.periodSelectedListener = periodSelectedListener
+    fun setPeriodSelectedListener(periodSelectedListener: (Any) -> Unit) {
+        this.periodSelectedListener = periodSelectedListener as OnPeriodSelectedListener
     }
 
     override fun setSelection(position: Int) {
@@ -78,7 +80,7 @@ class PeriodSpinner : AppCompatSpinner {
 
     private fun init(context: Context) {
         var context = context
-        MtApp.get().appComponent.inject(this@PeriodSpinner)
+        MtApp.get()?.appComponent?.inject(this@PeriodSpinner)
         adapter = ArrayAdapter(
             context, android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.array_periods)

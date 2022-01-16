@@ -3,6 +3,7 @@ package com.dreamer.mymy_moneytrack.activity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import com.dreamer.mymy_moneytrack.MtApp
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.activity.base.BaseBackActivity
 import com.dreamer.mymy_moneytrack.adapter.RecordReportAdapter
@@ -22,12 +23,15 @@ import javax.inject.Inject
 
 class ReportActivity : BaseBackActivity() {
 
-    @Inject
+
     lateinit var recordController: RecordController
-    @Inject
+        @Inject set
+
     lateinit var rateController: ExchangeRateController
-    @Inject
+        @Inject set
+
     lateinit var currencyController: CurrencyController
+        @Inject set
 
     private var recordList: List<Record> = listOf()
     private var period: Period? = null
@@ -58,7 +62,8 @@ class ReportActivity : BaseBackActivity() {
 
         initSpinnerCurrency()
 
-        adapter.setSummaryView(shortSummaryPresenter.create(false, null))
+        shortSummaryPresenter.create(shortSummary = false, itemClickListener = null)
+            ?.let { adapter.setSummaryView(it) }
         recyclerView.adapter = adapter
     }
 
@@ -92,7 +97,7 @@ class ReportActivity : BaseBackActivity() {
         lateinit var formatController: FormatController
 
         init {
-            MtApp.get().appComponent.inject(this)
+            MtApp.get()?.appComponent?.inject(this)
         }
 
         fun getItemsFromReport(report: IRecordReport?): MutableList<RecordReportItem> {
@@ -101,8 +106,18 @@ class ReportActivity : BaseBackActivity() {
             if (report == null) return items
 
             for (categoryRecord in report.summary) {
-                val parentRow = RecordReportItem.ParentRow(categoryRecord.title, formatController.formatSignedAmount(categoryRecord.amount), false)
-                items.add(parentRow)
+                val parentRow = categoryRecord?.let {
+                    categoryRecord.let { formatController.formatSignedAmount(it.amount) }
+                        ?.let { it1 ->
+                            RecordReportItem.ParentRow(
+                                it.title,
+                                it1, false
+                            )
+                        }
+                }
+                if (parentRow != null) {
+                    items.add(parentRow)
+                }
             }
             return items
         }
@@ -113,11 +128,18 @@ class ReportActivity : BaseBackActivity() {
             if (report == null) return data
 
             for (categoryRecord in report.summary) {
-                val parentRow = RecordReportItem.ParentRow(categoryRecord.title, formatController.formatSignedAmount(categoryRecord.amount), false)
+                val parentRow = RecordReportItem.ParentRow(
+                    categoryRecord?.title.toString(), formatController.formatSignedAmount(
+                        categoryRecord?.amount!!
+                    ), false
+                )
                 val childRows: MutableList<RecordReportItem.ChildRow> = mutableListOf()
 
                 for (summaryRecord in categoryRecord.summaryRecordList) {
-                    val childRow = RecordReportItem.ChildRow(summaryRecord.title, formatController.formatSignedAmount(summaryRecord.amount))
+                    val childRow = RecordReportItem.ChildRow(
+                        summaryRecord.title,
+                        formatController.formatSignedAmount(summaryRecord.amount)
+                    )
                     childRows.add(childRow)
                 }
 

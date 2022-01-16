@@ -24,30 +24,34 @@ import javax.inject.Inject
  *
  */
 class AccountsSummaryPresenter(context: Context) : BaseSummaryPresenter() {
-    @Inject
+
     var rateController: ExchangeRateController? = null
+        @Inject set
 
-    @Inject
     var accountController: AccountController? = null
+        @Inject set
 
-    @Inject
     var currencyController: CurrencyController? = null
+        @Inject set
 
-    @Inject
     var formatController: FormatController? = null
+        @Inject set
+
     private val red: Int
     private val green: Int
     private var view: View? = null
     private val reportMaker: ReportMaker
     fun create(): View? {
-        view = layoutInflater.inflate(R.layout.view_summary_accounts, null)
+        view = layoutInflater?.inflate(R.layout.view_summary_accounts, null)
         val viewHolder = ViewHolder(view)
         view?.tag = viewHolder
         val currencyList = currencyController!!.readAll()
-        viewHolder.spinnerCurrency!!.adapter = ArrayAdapter(
-            context,
-            android.R.layout.simple_list_item_1, currencyList
-        )
+        viewHolder.spinnerCurrency!!.adapter = context?.let {
+            ArrayAdapter(
+                it,
+                android.R.layout.simple_list_item_1, currencyList
+            )
+        }
         val currency = currencyController!!.readDefaultCurrency()
         for (i in currencyList.indices) {
             val item = currencyList[i]
@@ -112,6 +116,6 @@ class AccountsSummaryPresenter(context: Context) : BaseSummaryPresenter() {
         red = context.resources.getColor(R.color.red)
         green = context.resources.getColor(R.color.green)
         get()!!.appComponent!!.inject(this@AccountsSummaryPresenter)
-        reportMaker = ReportMaker(rateController)
+        reportMaker = rateController?.let { ReportMaker(it) }!!
     }
 }

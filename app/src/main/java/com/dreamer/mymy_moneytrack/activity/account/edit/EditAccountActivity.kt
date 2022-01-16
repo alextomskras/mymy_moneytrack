@@ -17,7 +17,8 @@ import com.dreamer.mymy_moneytrack.adapter.GeneralViewPagerAdapter
 import com.dreamer.mymy_moneytrack.controller.data.AccountController
 import com.dreamer.mymy_moneytrack.entity.data.Account
 import kotlinx.android.synthetic.main.activity_edit_account.*
-import kotlinx.android.synthetic.main.fragment_edit_account.*
+import kotlinx.android.synthetic.main.content_add_account.*
+
 import javax.inject.Inject
 
 class EditAccountActivity : BaseBackActivity() {
@@ -46,8 +47,16 @@ class EditAccountActivity : BaseBackActivity() {
         tabLayout.setupWithViewPager(viewPager)
 
         val adapter = GeneralViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(EditAccountFragment.newInstance(account), getString(R.string.information))
-        adapter.addFragment(AccountOperationsFragment.newInstance(account), getString(R.string.operations))
+        with(adapter) {
+            addFragment(
+                EditAccountFragment.newInstance(account = this@EditAccountActivity.account),
+                getString(R.string.information)
+            )
+            addFragment(
+                AccountOperationsFragment.newInstance(account = this@EditAccountActivity.account),
+                getString(R.string.operations)
+            )
+        }
         viewPager?.adapter = adapter
 
         viewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

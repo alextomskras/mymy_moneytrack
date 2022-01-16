@@ -4,6 +4,8 @@ import android.content.Intent
 
 
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.dreamer.mymy_moneytrack.R
 import com.dreamer.mymy_moneytrack.activity.ReportActivity
 import com.dreamer.mymy_moneytrack.activity.base.BaseDrawerActivity
@@ -77,17 +79,19 @@ class MainActivity : BaseDrawerActivity() {
         tvCurrency = navigationView.getHeaderView(0).findViewById(R.id.tvCurrency)
 
         recordAdapter = RecordAdapter(this, listOf(), true)
-        recordAdapter.itemClickListener = { position -> editRecord(getPositionWithoutSummary(position)) }
+        recordAdapter.itemClickListener =
+            { position -> editRecord(getPositionWithoutSummary(position)) }
 
         summaryPresenter = ShortSummaryPresenter(this)
-        val summaryViewHolder = summaryPresenter.create(true) { showReport() }.tag as RecyclerView.ViewHolder
+        val summaryViewHolder =
+            summaryPresenter.create(true) { showReport() }?.tag as RecyclerView.ViewHolder
         recordAdapter.summaryViewHolder = summaryViewHolder
 
         recyclerView.adapter = recordAdapter
 
-        spinner.setPeriodSelectedListener { period ->
-            this.period = period
-            periodController.writeLastUsedPeriod(period)
+        spinner.setPeriodSelectedListener {
+            this.period = it as Period
+            periodController.writeLastUsedPeriod(it)
             update()
         }
 
@@ -101,24 +105,24 @@ class MainActivity : BaseDrawerActivity() {
 
     private fun editRecord(position: Int) {
 
-        CrashlyticsProxy.get().logButton("Edit Record")
+        CrashlyticsProxy.get()?.logButton("Edit Record")
         val record = recordList[getRecordPosition(position)]
 
         startAddRecordActivity(record, AddRecordActivity.Mode.MODE_EDIT, record.type)
     }
 
     private fun addExpense() {
-        CrashlyticsProxy.get().logButton("Add Expense")
+        CrashlyticsProxy.get()?.logButton("Add Expense")
         startAddRecordActivity(null, AddRecordActivity.Mode.MODE_ADD, Record.TYPE_EXPENSE)
     }
 
     private fun addIncome() {
-        CrashlyticsProxy.get().logButton("Add Income")
+        CrashlyticsProxy.get()?.logButton("Add Income")
         startAddRecordActivity(null, AddRecordActivity.Mode.MODE_ADD, Record.TYPE_INCOME)
     }
 
     private fun showReport() {
-        CrashlyticsProxy.get().logButton("Show Report")
+        CrashlyticsProxy.get()?.logButton("Show Report")
         val intent = Intent(this, ReportActivity::class.java)
         intent.putExtra(ReportActivity.KEY_PERIOD, period)
         startActivity(intent)
@@ -170,7 +174,7 @@ class MainActivity : BaseDrawerActivity() {
     }
 
     private fun showAppRateDialog() {
-        CrashlyticsProxy.get().logEvent("Show App Rate Dialog")
+        CrashlyticsProxy.get()?.logEvent("Show App Rate Dialog")
         val dialog = AppRateDialog(this)
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()

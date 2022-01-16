@@ -22,8 +22,9 @@ import java.util.*
 import javax.inject.Inject
 
 class ExchangeRatesActivity : BaseBackActivity() {
-    @Inject
+
     var rateController: ExchangeRateController? = null
+        @Inject set
     private var exchangeRateList: List<ExchangeRatePair?>? = null
 
     @BindView(R.id.listView)
@@ -61,7 +62,7 @@ class ExchangeRatesActivity : BaseBackActivity() {
     }
 
     fun deleteExchangeRate(position: Int) {
-        CrashlyticsProxy.get().logButton("Delete Exchange Rate")
+        CrashlyticsProxy.get()?.logButton("Delete Exchange Rate")
         rateController!!.deleteExchangeRatePair(exchangeRateList!![position])
         update()
         setResult(RESULT_OK)
@@ -69,14 +70,14 @@ class ExchangeRatesActivity : BaseBackActivity() {
 
     @OnClick(R.id.btn_add_exchange_rate)
     fun addExchangeRate() {
-        CrashlyticsProxy.get().logButton("Add Exchange Rate")
+        CrashlyticsProxy.get()?.logButton("Add Exchange Rate")
         val intent = Intent(this@ExchangeRatesActivity, AddExchangeRateActivity::class.java)
         startActivityForResult(intent, REQUEST_ADD_EXCHANGE_RATE)
     }
 
     @OnItemClick(R.id.listView)
     fun addExchangeRateOnBaseOfExisted(position: Int) {
-        CrashlyticsProxy.get().logButton("Edit Exchange Rate")
+        CrashlyticsProxy.get()?.logButton("Edit Exchange Rate")
         if (position < 0 || position >= exchangeRateList!!.size) return
         val intent = Intent(this@ExchangeRatesActivity, AddExchangeRateActivity::class.java)
         intent.putExtra(AddExchangeRateActivity.KEY_EXCHANGE_RATE, exchangeRateList!![position])

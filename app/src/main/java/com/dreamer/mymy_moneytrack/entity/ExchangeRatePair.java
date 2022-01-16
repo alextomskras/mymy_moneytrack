@@ -2,15 +2,14 @@ package com.dreamer.mymy_moneytrack.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.dreamer.mymy_moneytrack.entity.data.ExchangeRate;
 
 /**
  * Not data entity that's used for {@link com.dreamer.mymy_moneytrack.adapter.ExchangeRateAdapter}.
- * Created on 7/13/16.
- *
- * @author Evgenii Kanivets
+
  */
 public class ExchangeRatePair implements Parcelable {
     @Nullable
